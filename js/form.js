@@ -48,10 +48,26 @@ class Form {
 	}
 
 	updateConditionalQuestions() {
-		if (answers[4].answer > 0) {
-			pages[4] = true;
+		// Ważne: nie mylić page z answers[x]
+
+		// TRANSPORT (Ile km przejeżdżasz samochodem?)
+		if (answers[4].answer > 0) this._setStatusPages([4, 5], true);
+		else this._setStatusPages([4, 5], false);
+
+		// TRANSPORT (Ile km przejeżdżasz jednośladem?)
+		if (answers[6].answer > 0) this._setStatusPages([6, 7], true);
+		else this._setStatusPages([6, 7], false);
+	}
+
+	_setStatusPages(listOfPages, status) {
+		if (status) {
+			listOfPages.forEach(element => {
+				pages[element] = true;
+			});
 		} else {
-			pages[4] = false;
+			listOfPages.forEach(element => {
+				pages[element] = false;
+			});
 		}
 	}
 
@@ -67,7 +83,7 @@ class Form {
 		return `<div class="form-object input-text-object">  
                     <p>${header}</p>
                     <p>${question.pytanie_pomocnicze_pl}</p> 
-                    <input id="${question.id}" type="text" class="input-object"> 
+                    <input id="${question.question_nr}" type="text" class="input-object"> 
 					<p class="validate-input"> wpisz liczbę większą lub równą 0 </p>
                 </div>`;
 	}
@@ -102,7 +118,7 @@ class Form {
 		for (let j = 0; j < numberOfSubQuestions; j++) {
 			let subQuestion = question.mozliwe_odpowiedzi_pl.split(";")[j];
 			subQuestions += `<label style="display:block"> 
-                <input id="${question.id}" type="radio" name="r${question.id}" class="input-object">  ${subQuestion}
+                <input id="${question.question_nr}" type="radio" name="r${question.question_nr}" class="input-object">  ${subQuestion}
             </label>`;
 		}
 		return `<div class="form-object radio-object">  
@@ -209,7 +225,7 @@ class Form {
 		for (let j = 0; j < numberOfSubQuestions; j++) {
 			let subQuestion = question.mozliwe_odpowiedzi_pl.split(";")[j];
 			subQuestions += `<label style="display:block"> 
-                <input id="${question.id}" type="checkbox" name="c${question.id}" class="input-object">  ${subQuestion}
+                <input id="${question.question_nr}" type="checkbox" name="c${question.question_nr}" class="input-object">  ${subQuestion}
             </label>`;
 		}
 		return `<div class="form-object checkbox-object">  
@@ -279,7 +295,7 @@ class Form {
                     ${header}
                     ${subQuestion}
                     <p class="slider-value">${subQuestions[middleValue]}</p>
-                    <input id="${question.id}" type="range" min="1" max="${numberOfSubQuestions}" class="input-object slider"> 
+                    <input id="${question.question_nr}" type="range" min="1" max="${numberOfSubQuestions}" class="input-object slider"> 
                     <p class="slider-describe">${describes[middleValue]}</p>
                 </div>`;
 	}
@@ -334,7 +350,7 @@ class Form {
                     ${header}
                     <p><b>${question.pytanie_pomocnicze_pl}</b></p>
                     <p class="slider-percent-value">50%</p>
-                    <input id="${question.id}" type="range" min="0" max="100" class="input-object slider"> 
+                    <input id="${question.question_nr}" type="range" min="0" max="100" class="input-object slider"> 
                     
                 </div>`;
 	}
@@ -346,7 +362,7 @@ class Form {
 
 		for (let i = 0; i < Object.keys(inputSlidersPercent).length; i++) {
 			const inputObject = inputSlidersPercent[i].querySelector(".input-object");
-			const inputObjectId = inputObject.id;
+			const inputObjectId = inputObject.question_nr;
 
 			inputSlidersPercent[i].addEventListener("input", () => {
 				const sliderValue = inputSlidersPercent[i].querySelector(

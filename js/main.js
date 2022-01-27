@@ -1,10 +1,13 @@
 let page = 1;
-let pages = { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true };
+let pages = {};
 let answers = [];
+let calc_answers = [];
 let isValidate = true;
 
 const bntLeft = document.querySelector(".btn-left");
 const bntRight = document.querySelector(".btn-right");
+
+
 
 // TEST Fetch ---------------------------------------------------------------------------------------------------
 fetch("http://127.0.0.1:8000/api/questions/?format=json")
@@ -55,6 +58,14 @@ function form(d) {
 		answers.push({ id: i, answer: null });
 	}
 
+
+	// przygotowanie stron do wyświetlenia
+	for (let i = 1; i < numbersOfPages + 1; i++) {
+		pages[i] = true;
+	}
+	
+
+
 	form = new Form(d, ".form-box");
 	form.drawInputsByType();
 	form.updateAndValidateInputs();
@@ -92,7 +103,6 @@ function form(d) {
 				i++;
 			}
 
-			console.log(skip);
 			page += skip;
 		}
 	}
@@ -102,13 +112,12 @@ function form(d) {
 			page -= 1;
 		} else {
 			skip = 1;
-			let i = 1;
-			while (pages[page - i] == false) {
+			let i = -1;
+			while (pages[page + i] == false) {
 				skip++;
 				i--;
 			}
 
-			console.log(skip);
 			page -= skip;
 		}
 	}
@@ -140,8 +149,13 @@ function form(d) {
 	// PRZYCISK TYMCZASOWY
 	const bntTemp = document.querySelector(".btn-tmp");
 	bntTemp.addEventListener("click", () => {
-		console.log(answers);
 		updateView();
+		getCalcValues();
+
+
+		if (page == numbersOfPages) {
+			console.log('ostatnie pytanie');
+		}
 	});
 }
 
@@ -239,7 +253,7 @@ function getNumbersOfQuestionsOnPage() {
 		let inputObjectId = element.querySelector(".input-object");
 
 		if (element.style.display != "none") {
-			numbers.push(parseInt(inputObjectId.id, 10));
+			numbers.push(parseInt(inputObjectId.question_nr, 10));
 		}
 		// console.log(element.style.display);
 		// console.log(inputObjectId.id);
