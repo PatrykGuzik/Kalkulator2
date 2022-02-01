@@ -7,8 +7,6 @@ let isValidate = true;
 const bntLeft = document.querySelector(".btn-left");
 const bntRight = document.querySelector(".btn-right");
 
-
-
 // TEST Fetch ---------------------------------------------------------------------------------------------------
 fetch("http://127.0.0.1:8000/api/questions/?format=json")
 	.then(response => response.json())
@@ -58,13 +56,10 @@ function form(d) {
 		answers.push({ id: i, answer: null });
 	}
 
-
 	// przygotowanie stron do wyświetlenia
 	for (let i = 1; i < numbersOfPages + 1; i++) {
 		pages[i] = true;
 	}
-	
-
 
 	form = new Form(d, ".form-box");
 	form.drawInputsByType();
@@ -144,107 +139,71 @@ function form(d) {
 				form.validateForms();
 			}
 		}
+
+		// if (page > numbersOfPages) {
+		// 	updateView(); // update View jest konieczne do zapisu
+		// 	getCalcValues();
+		// 	window.location.href = "finish.html";
+		// 	console.log(page);
+		// }
 	});
 
 	// PRZYCISK TYMCZASOWY
 	const bntTemp = document.querySelector(".btn-tmp");
 	bntTemp.addEventListener("click", () => {
-		updateView();
-		getCalcValues();
-
-
 		if (page == numbersOfPages) {
-			console.log('ostatnie pytanie');
+			updateView();
+			getCalcValues();
+			console.log("wysłane");
 		}
 	});
 }
 
 //---------------------------------------------------------------------------------
 
-// tworzenie instancji
-// const form = new Form(json_tmp, ".form-box");
-// form.drawInputsByType();
-// form.updateAndValidateInputs();
-
-// const info = new Info(info_tmp, ".info-box");
-// info.drawInfo();
-
-// const all_form_objects = document.querySelectorAll(".form-object");
-// const all_info_objects = document.querySelectorAll(".info-object");
-
-// wyświetlanie Inputów
-// function showAndHiddenInput() {
-// 	for (let i = 0; i < json_tmp.length; i++) {
-// 		if (json_tmp[i].page == page) {
-// 			all_form_objects[i].style.display = "block";
-// 		} else {
-// 			all_form_objects[i].style.display = "none";
-// 		}
-// 	}
-// }
-
-// function showAndHiddenInfo() {
-// 	for (let i = 0; i < info_tmp.length; i++) {
-// 		if (info_tmp[i].page == page) {
-// 			all_info_objects[i].style.display = "block";
-// 		} else {
-// 			all_info_objects[i].style.display = "none";
-// 		}
-// 	}
-// }
-
 const categoryName = document.querySelector(".category-name");
+
+const categories = categoryName.querySelectorAll("li");
+console.log(categories);
 
 function updateCategoryName(json) {
 	for (let i = 0; i < json.length; i++) {
 		if (json[i].page == page) {
-			categoryName.innerHTML = json[i].kategoria
-				.toUpperCase()
-				.replace("_", " ");
-			break;
+			switch (json[i].kategoria) {
+				case "metryczka":
+					changeColorCat(0)
+					break;
+
+				case "transport":
+					changeColorCat(1)
+					break;
+
+				default:
+					break;
+			}
 		}
 	}
 }
 
+function changeColorCat(nrOfCategory) {
+	categories[nrOfCategory].classList.add("active-cat");
+
+	for (let i = 0; i < categories.length; i++) {
+		if (i == nrOfCategory) {
+			continue;
+		}
+		if (categories[i].classList.contains("active-cat")) {
+			categories[i].classList.remove("active-cat");
+		}
+	}
+}
 
 const pageNumber = document.querySelector(".page-number");
-function updatePageNr(max){
+function updatePageNr(max) {
 	pageNumber.innerHTML = `${page}/${max}`;
 }
 
-// function updateView(){
-// 	updateCategoryName();
-// 	showAndHiddenInfo();
-// 	showAndHiddenInput();
-// 	// getNumbersOfQuestionsOnPage();
-// }
 
-// PRZYCISK TYMCZASOWY
-// const bntTemp = document.querySelector(".btn-tmp");
-// bntTemp.addEventListener("click", () => {
-// 	console.log(answers);
-// 	console.log(test);
-// 	info_tmp = test;
-// });
-
-// updateView()
-// const bntLeft = document.querySelector(".btn-left");
-// const bntRight = document.querySelector(".btn-right");
-// bntLeft.addEventListener("click", () => {
-// 	if (page > 1) {
-// 		page -= 1;
-// 		updateView()
-// 	}
-// });
-
-// bntRight.addEventListener("click", () => {
-// 	if (page < numbersOfPages) {
-// 		page += 1;
-// 		updateView()
-// 	}
-// });
-
-// Numery pytań
 
 function getNumbersOfQuestionsOnPage() {
 	let numbers = [];
@@ -261,3 +220,4 @@ function getNumbersOfQuestionsOnPage() {
 
 	console.log(numbers);
 }
+

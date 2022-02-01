@@ -1,0 +1,29 @@
+:root{
+    --inputBorderColor: rgba(0, 128, 0, 0.801);
+  }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=text] {
+  -moz-appearance: textfield;
+}
+
+input[type=text] {
+  border: transparent;
+  border-bottom: 2px solid var(--inputBorderColor);
+  background-color: transparent;
+  color: black;
+  width: 100px;
+  padding:6px;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+input[type=text]:focus {
+  outline: none;
+}

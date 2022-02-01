@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap");
 
 body {
-	background: #000;
+	background: rgb(55, 224, 253);
 	text-align: center;
 	font-family: "Montserrat", sans-serif;
 }
@@ -21,7 +21,7 @@ body {
 }
 
 .form-box {
-	width: 250px;
+	width: 600px;
 }
 .info-box {
 	margin-top: 20px;
@@ -30,45 +30,7 @@ body {
 	padding-right: 40px;
 }
 
-.form-button-container {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
 
-.btn {
-	display: inline-block;
-	width: 50px;
-	height: 50px;
-	background-color: transparent;
-	border: none;
-}
-
-.btn-left,
-.btn-right {
-	width: 40px;
-	height: 40px;
-	border-top: 7px solid gold;
-	margin: 20px;
-	transition: transform 0.2s;
-}
-
-.btn-left {
-	transform: rotate(-45deg);
-	border-left: 7px solid gold;
-}
-.btn-right {
-	transform: rotate(45deg);
-	border-right: 7px solid gold;
-}
-
-.btn-left:hover {
-	transform: rotate(-45deg) scale(1.1);
-}
-
-.btn-right:hover {
-	transform: rotate(45deg) scale(1.1);
-}
 
 .form-object {
 	display: none;
@@ -126,4 +88,46 @@ p {
 	color: red;
 	display: none;
 	font-size: 12px;
+}
+
+
+/* KATEGORIE */
+
+
+
+ul{
+	display: flex;
+	list-style-type: none;
+	justify-content: center;
+}
+
+li{
+	display: inline-block;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.active-cat{
+	color: gold;
+}
+
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    /* border-radius: 10px; */
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+::-webkit-scrollbar-track-piece{
+  background-color: transparent
 }

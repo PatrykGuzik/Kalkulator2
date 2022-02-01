@@ -40,7 +40,7 @@ body {
 }
 
 .code-container {
-    display: block;
+    display: none;
     margin-bottom: 10px;
 }
 
@@ -80,18 +80,34 @@ body {
     font-weight: 600;
 }
 
-.code-button span{
+.code-q:hover{
+    cursor: default;
+}
+
+.code-button .code-q-btn{
     color: tomato;
 }
 
-.code-button span:hover{
+.code-button .code-q-btn:hover{
     color: rgb(253, 83, 53);
     cursor: pointer;
+}
+
+.wrong-code{
+    color: red;
+    display: none;
+}
+.red-line{
+    border-color: red;
 }
 
 /* INPUT */
 
 /* Chrome, Safari, Edge, Opera */
+:root{
+    --inputBorderColor: rgba(0, 128, 0, 0.801);
+  }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -104,11 +120,11 @@ input[type=text] {
 }
 
 input[type=text] {
-  border-bottom: 2px solid rgba(0, 128, 0, 0.801);
+  border-bottom: 2px solid var(--inputBorderColor);
   background-color: transparent;
   color: black;
   width: 100px;
-  padding:7px;
+  padding:6px;
   font-size: 20px;
   font-weight: 600;
   text-align: center;

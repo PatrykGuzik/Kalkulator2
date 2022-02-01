@@ -73,6 +73,11 @@ class Form {
 
 	drawInputText(question) {
 		let header = "";
+		let subquestion = `<p>${question.pytanie_pomocnicze_pl}</p> `;
+
+		if (question.pytanie_pomocnicze_pl == null) {
+			subquestion = "";
+		}
 
 		if (this.isFirstQuestionOnPage(question)) {
 			header += `<h3 class="main-question-text"> ${question.pytanie_pl} </h3> `;
@@ -82,7 +87,7 @@ class Form {
 
 		return `<div class="form-object input-text-object">  
                     <p>${header}</p>
-                    <p>${question.pytanie_pomocnicze_pl}</p> 
+                    ${subquestion}
                     <input id="${question.question_nr}" type="text" class="input-object"> 
 					<p class="validate-input"> wpisz liczbę większą lub równą 0 </p>
                 </div>`;
@@ -117,8 +122,9 @@ class Form {
 
 		for (let j = 0; j < numberOfSubQuestions; j++) {
 			let subQuestion = question.mozliwe_odpowiedzi_pl.split(";")[j];
-			subQuestions += `<label style="display:block"> 
-                <input id="${question.question_nr}" type="radio" name="r${question.question_nr}" class="input-object">  ${subQuestion}
+			subQuestions += 
+			`<label style="display:block"> 
+                <input id="${question.question_nr}" type="radio" name="r${question.question_nr}" class="radio input-object">  <span>${subQuestion}</span>
             </label>`;
 		}
 		return `<div class="form-object radio-object">  

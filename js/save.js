@@ -1,8 +1,5 @@
 const test = {};
 
-console.log(JSON.stringify(test));
-
-
 for (let i = 1; i <= 6; i++) {
 	test[i] = null;
 }
@@ -14,20 +11,19 @@ function getCalcValues() {
 }
 
 function sendToBase() {
-    const toSendAnswers = JSON.stringify(answers);
-    const toSendCalcAnswers = JSON.stringify(test);
+	const toSendAnswers = JSON.stringify(answers);
+	const toSendCalcAnswers = JSON.stringify(test);
 
-    let _data = {
-		code: "code",
+	let _data = {
+		code: sessionStorage.getItem('code'),
 		answers: toSendAnswers,
-		calc_answers: toSendCalcAnswers
+		calc_answers: toSendCalcAnswers,
 	};
 	fetch("http://127.0.0.1:8000/api/answers/?format=json", {
 		method: "POST",
 		body: JSON.stringify(_data),
 		headers: { "Content-type": "application/json; charset=UTF-8" },
 	}).then(response => response.json());
-
 }
 
 function saveToCalcAnswers(data) {
@@ -134,12 +130,12 @@ function saveToCalcAnswers(data) {
 	for (let i = 1; i <= Object.keys(test).length; i++) {
 		TRANSPORT += test[i];
 	}
+	// Wysyłanie do danych sesyjnych
+	sessionStorage.setItem("TRANSPORT", Math.round(TRANSPORT));
+	// Wysyłamy dane do bazy
+	sendToBase();
 
-	console.log(TRANSPORT);
-
-
-    // Wysyłamy dane do bazy
-    sendToBase();
+	console.log("wysłane");
 
 	// Dodatkowe funkcje
 	function getValue(name) {
