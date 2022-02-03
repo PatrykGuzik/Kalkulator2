@@ -1,0 +1,36 @@
+:root{
+	--rangeColor: rgb(55, 68, 112);
+	--whellColor: rgb(255, 255, 255);
+}
+
+.slider-value{
+    background-color: var(--rangeColor);
+    color: var(--whellColor);
+    font-size: 13px;
+    display: inline-block;
+    padding: 7px;
+    margin: 10px;
+}
+
+.slider-describe{
+    font-size: 13px;
+}
+
+.slider {
+	-webkit-appearance: none;
+	width: 80%;
+	height: 8px;
+	margin-bottom: 30px;
+	margin-top: 10px;
+	border-radius: 10px;
+	background-color: var(--rangeColor);
+}
+
+.slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 30px;
+	height: 30px;
+	background-color: var(--rangeColor);
+	border: 3px solid var(--whellColor);
+	border-radius: 50%;
+}

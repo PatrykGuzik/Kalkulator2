@@ -1,0 +1,98 @@
+:root {
+	--formColor: rgba(255, 255, 255, 0.5);
+}
+
+.form-button-container {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+}
+
+.form-container,
+.info-box {
+	background-color: var(--formColor);
+	display: inline-block;
+	border-radius: 7px;
+	width: 700px;
+}
+
+.form-box {
+	padding: 30px 30px 0 30px;
+}
+
+.form-object {
+	display: none;
+	margin-bottom: 40px;
+}
+
+p {
+	margin-bottom: 0;
+}
+
+.category-name {
+	color: rgb(255, 255, 255);
+	margin-bottom: 20px;
+	font-weight: 700;
+}
+
+.page-number {
+	color: rgb(255, 255, 255);
+}
+
+/* KATEGORIE */
+
+ul {
+	display: flex;
+	list-style-type: none;
+	justify-content: center;
+	padding: 0;
+}
+
+li {
+	display: inline-block;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.active-cat {
+	color: gold;
+}
+
+/* INFO */
+
+.info-box {
+	margin-top: 20px;
+	text-align: left;
+	opacity: 0;
+	transition: all 0.5s;
+}
+
+.info-object {
+	position: relative;
+	display: none;
+}
+
+.info-img-box {
+	display: inline-block;
+	position: absolute;
+}
+
+.info-img {
+	width: 40px;
+	margin: 15px;
+}
+
+.info-content {
+	margin-left: 70px;
+	display: inline-block;
+	width: 85%;
+}
+
+.info-box h4 {
+	margin-top: 20px;
+	font-size: 20px;
+}
+.info-box p {
+	margin-top: 10px;
+	margin-bottom: 20px;
+}

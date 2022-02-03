@@ -1,54 +1,64 @@
-.form-button-container {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+:root{
+	--leftRightBtnColor: rgba(255, 255, 255, 0.801);
+	--leftRightArrowColor: rgb(0, 0, 0);
 }
+
+
 
 .btn {
 	display: inline-block;
 	width: 40px;
 	height: 40px;
-	background-color: white;
+	background-color: var(--leftRightBtnColor);
     border-radius: 50%;
 	border: none;
     z-index: 1;
     position: relative;
-    margin: 10px;
+    margin: 40px;
+	margin-top: 50px;
+	position: relative;
 }
 
-.btn div{
-    width: 15px;
-    height: 15px;
-    background-color: transparent;
-    position: absolute;
-    top:0;
-    left:0;
+.btn::after{
+	content: '';
+	position: absolute;
+	width: 15px;
+	height: 15px;
+	top:50%;
+	left:50%;
 }
 
-.btn-left,
-.btn-right {
-	width: 30px;
-	height: 30px;
-	border-top: 2px solid rgb(0, 0, 0);
-	margin: 20px;
-	transition: transform 0.2s;
+.btn-left::after{
+	border-bottom: 2px solid var(--leftRightArrowColor);
+	border-left: 2px solid var(--leftRightArrowColor);
+	transform: translate(-30%, -50%) rotate(45deg)
 }
 
-.btn-left {
-	transform:  translate(-30%, -50%) rotate(-45deg);
-	border-left: 2px solid rgb(0, 0, 0);
-}
-.btn-right {
-	transform: translate(-60%, -50%) rotate(45deg);
-	border-right: 2px solid rgb(0, 0, 0);
+.btn-right::after{
+	border-top: 2px solid var(--leftRightArrowColor);
+	border-right: 2px solid var(--leftRightArrowColor);
+	transform: translate(-70%, -50%) rotate(45deg)
 }
 
-.btn-left:hover {
-	transform: translate(-30%, -50%) rotate(-45deg) scale(1.1);
+.btn:hover{
+	cursor: pointer;
+}
+
+/* NEXT btn */
+.btn-next {
+    display:inline-block;
+    padding: 8px 32px;
+    border: none;
+    background-color: #4D8748;
+    border-radius: 7px;
+    color: white;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+
+.btn-next:hover{
     cursor: pointer;
+    background-color: #4D8748;
 }
 
-.btn-right:hover {
-	transform: translate(-60%, -50%) rotate(45deg) scale(1.1);
-    cursor: pointer;
-}

@@ -1,6 +1,27 @@
 :root{
-    --inputBorderColor: rgba(0, 128, 0, 0.801);
+    --inputBorderColor: #AECA7A;
+    --fontColor: rgb(255, 255, 255);
   }
+
+
+.main-question-text{
+  margin-bottom: 10px;
+}
+
+.input-text-object{
+  display: inline-block;
+}
+
+.input-text-object span{
+  position: absolute;
+  color: rgb(133, 133, 133);
+  font-size: 13px;
+  transform: translateY(70%);
+}
+
+.input-text-object .input-object{
+  font-weight: 700;
+}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -15,10 +36,10 @@ input[type=text] {
 
 input[type=text] {
   border: transparent;
-  border-bottom: 2px solid var(--inputBorderColor);
+  border-bottom: 3px solid var(--inputBorderColor);
   background-color: transparent;
-  color: black;
-  width: 100px;
+  color: var(--fontColor);
+  width: 80px;
   padding:6px;
   font-size: 20px;
   font-weight: 600;
@@ -26,4 +47,15 @@ input[type=text] {
 }
 input[type=text]:focus {
   outline: none;
+}
+
+
+.validate-input {
+	margin: 0;
+	color: red;
+	display: block;
+	font-size: 0px;
+  opacity: 0;
+	transition: all 0.5s;
+	transform: translateY(-100%);
 }

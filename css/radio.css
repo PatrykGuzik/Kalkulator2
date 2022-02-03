@@ -1,44 +1,77 @@
-:root{
-    --mainRadioColor: rgb(0, 0, 0);
-  }
-  
-  .radio{
-    margin: auto;
-    width: 350px;
-    text-align: left;
-    padding-left: 20px;
-    padding-bottom: 30px;
-  }
-  
+:root {
+	--mainRadioColor: rgb(0, 0, 0);
+}
 
-  
-  .radio-inner{
-    width: 300px;
-    display: block;
-    padding: 6px;
-    left:0;
-  }
-  
-  
-  label > input[type="radio"] {
-    display: none;
-  }
-  
-  label > input[type="radio"] + *::before {
-    content: "";
-    display: inline-block;
-    vertical-align: bottom;
-    width: 1rem;
-    height: 1rem;
-    margin-right: 0.3rem;
-    border-radius: 50%;
-    border-style: solid;
-    border-width: 2px;
-    border-color: var(--mainRadioColor);
-  }
-  
-  label > input[type="radio"]:checked + *::before {
-    background: radial-gradient(var(--mainRadioColor) 0%, var(--mainRadioColor) 40%, transparent 50%, transparent);
-    border-color: var(--mainRadioColor);
-  }
-  
+.radio {
+	margin: auto;
+	width: 350px;
+	text-align: left;
+	padding-left: 20px;
+	padding-bottom: 30px;
+}
+
+
+.radio-object h3{
+	margin-bottom: 10px;
+}
+
+.radio-object span{
+	font-size: 16px;
+	width: 20px;
+}
+
+.radio-object label{
+  display: inline-block;
+  margin: 16px;
+  margin-top: 10px;
+}
+
+.radio-inner {
+	width: 300px;
+	display: block;
+	padding: 6px;
+	left: 0;
+}
+
+label > input[type="radio"] {
+	display: none;
+}
+
+label > input[type="radio"] + *::before {
+	content: "";
+	display: inline-block;
+	vertical-align: bottom;
+	width: 1rem;
+	height: 1rem;
+	margin-right: 0.3rem;
+	border-radius: 50%;
+	border-style: solid;
+	border-width: 2px;
+	border-color: var(--mainRadioColor);
+}
+
+label > input[type="radio"]:checked + *::before {
+	background: radial-gradient(
+		var(--mainRadioColor) 0%,
+		var(--mainRadioColor) 40%,
+		transparent 50%,
+		transparent
+	);
+	border-color: var(--mainRadioColor);
+}
+
+.validate-radio-box{
+	/* background-color: aqua; */
+	overflow: hidden;
+}
+
+.validate-radio {
+	margin: 0;
+	color: red;
+	font-size: 0px;
+	display: block;
+	opacity: 0;
+	transition: all 0.5s;
+	transform: translateY(-100%);
+	
+}

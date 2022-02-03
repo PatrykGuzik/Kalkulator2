@@ -31,6 +31,10 @@ class Form {
 					form_box_inner += this.drawSliderPercent(this.jsonQuestions[i]);
 					break;
 
+				case "newinput":
+					form_box_inner += this.drawNewImputText(this.jsonQuestions[i]);
+					break;
+
 				default:
 					break;
 			}
@@ -71,9 +75,41 @@ class Form {
 		}
 	}
 
+	drawNewImputText(question) {
+		let subQuestions = "";
+		let numberOfSubQuestions = Object.keys(
+			question.mozliwe_odpowiedzi_pl.split(";")
+		).length;
+
+		for (let j = 0; j < numberOfSubQuestions; j++) {
+			let subQuestion = question.mozliwe_odpowiedzi_pl.split(";")[j];
+			console.log(subQuestion);
+			subQuestions += `
+				<div style="display:inline-block">
+					<div>${subQuestion}</div>
+                	<input id="${question.question_nr}" type="text" class="input-object">  
+				</div>
+            `;
+		}
+
+		return `
+		<div class="form-object input-text-object">  
+			<h3>${question.pytanie_pl}</h3>
+			${subQuestions}
+			<p class="validate-input"> wpisz liczbę większą lub równą 0 </p>
+		</div>`;
+	}
+
 	drawInputText(question) {
 		let header = "";
 		let subquestion = `<p>${question.pytanie_pomocnicze_pl}</p> `;
+		let unit = "";
+
+		if (question.jednostka == null) {
+			unit = "";
+		} else {
+			unit = question.jednostka;
+		}
 
 		if (question.pytanie_pomocnicze_pl == null) {
 			subquestion = "";
@@ -87,9 +123,10 @@ class Form {
 
 		return `<div class="form-object input-text-object">  
                     <p>${header}</p>
-                    ${subquestion}
-                    <input id="${question.question_nr}" type="text" class="input-object"> 
+					${subquestion}
+					<input id="${question.question_nr}" type="text" class="input-object"> <span>${unit}</span>
 					<p class="validate-input"> wpisz liczbę większą lub równą 0 </p>
+					
                 </div>`;
 	}
 
@@ -109,7 +146,11 @@ class Form {
 				}
 
 				this.isFull();
-				inputText[i].querySelector(".validate-input").style.display = "none";
+				// inputText[i].querySelector(".validate-input").style.display = "none";
+				inputText[i].querySelector(".validate-input").style.opacity = "0";
+				inputText[i].querySelector(".validate-input").style.transform =
+					"translateY(-100%)";
+				inputText[i].querySelector(".validate-input").style.fontSize = "0px";
 			});
 		}
 	}
@@ -122,15 +163,14 @@ class Form {
 
 		for (let j = 0; j < numberOfSubQuestions; j++) {
 			let subQuestion = question.mozliwe_odpowiedzi_pl.split(";")[j];
-			subQuestions += 
-			`<label style="display:block"> 
+			subQuestions += `<label> 
                 <input id="${question.question_nr}" type="radio" name="r${question.question_nr}" class="radio input-object">  <span>${subQuestion}</span>
             </label>`;
 		}
 		return `<div class="form-object radio-object">  
                     <h3>${question.pytanie_pl}</h3> 
                     ${subQuestions}
-					<p class="validate-radio"> Zaznacz jedną odpowiedź </p>
+					<div class="validate-radio-box"><p class="validate-radio"> Zaznacz jedną odpowiedź </p></div>
                 </div>`;
 	}
 
@@ -159,7 +199,10 @@ class Form {
 				answers[inputObjectId - 1].answer = inputRadioValue;
 
 				this.isFull();
-				inputRadio[i].querySelector(".validate-radio").style.display = "none";
+				inputRadio[i].querySelector(".validate-radio").style.opacity = "0";
+				inputRadio[i].querySelector(".validate-radio").style.transform =
+					"translateY(-100%)";
+				inputRadio[i].querySelector(".validate-radio").style.fontSize = "0px";
 			});
 		}
 	}
@@ -174,14 +217,29 @@ class Form {
 				if (formObject[formsOnPage[i] - 1].classList.contains("radio-object")) {
 					formObject[formsOnPage[i] - 1].querySelector(
 						".validate-radio"
-					).style.display = "block";
+					).style.opacity = "1";
+					formObject[formsOnPage[i] - 1].querySelector(
+						".validate-radio"
+					).style.transform = "translateY(0)";
+					formObject[formsOnPage[i] - 1].querySelector(
+						".validate-radio"
+					).style.fontSize = "14px";
 				}
 				if (
 					formObject[formsOnPage[i] - 1].classList.contains("input-text-object")
 				) {
+					// formObject[formsOnPage[i] - 1].querySelector(
+					// 	".validate-input"
+					// ).style.display = "block";
 					formObject[formsOnPage[i] - 1].querySelector(
 						".validate-input"
-					).style.display = "block";
+					).style.opacity = "1";
+					formObject[formsOnPage[i] - 1].querySelector(
+						".validate-input"
+					).style.transform = "translateY(0)";
+					formObject[formsOnPage[i] - 1].querySelector(
+						".validate-input"
+					).style.fontSize = "14px";
 				}
 			}
 		}
@@ -300,7 +358,7 @@ class Form {
 		return `<div class="form-object slider-object">  
                     ${header}
                     ${subQuestion}
-                    <p class="slider-value">${subQuestions[middleValue]}</p>
+                    <div class="slider-value">${subQuestions[middleValue]}</div></br>
                     <input id="${question.question_nr}" type="range" min="1" max="${numberOfSubQuestions}" class="input-object slider"> 
                     <p class="slider-describe">${describes[middleValue]}</p>
                 </div>`;

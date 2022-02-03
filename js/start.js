@@ -9,9 +9,6 @@ function approve() {
 	} else {
 		CheckCode(codeInputValue);
 	}
-
-	// sessionStorage.setItem("code", codeInput.value);
-	// window.location.href = "index.html";
 }
 
 const codeContainer = document.querySelector(".code-container");
