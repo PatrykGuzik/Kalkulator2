@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/input-text.css">
     <link rel="stylesheet" href="css/range.css">
     <link rel="stylesheet" href="css/accessories.css">
+    <link rel="stylesheet" href="css/checkbox.css">
 </head>
 
 <body>
@@ -23,23 +24,48 @@
             <div class="main-container">
                 <div class="category-name">
                     <ul>
-                        <li>METRYCZKA <div>  </div>
+                        <li>
+                            <div class="counter"> </div>
                         </li>
-                        <li>TRANSPORT <div></div>
+                        <li>TRANSPORT <div class="counter">
+                                <div class="q-nr"> 1 </div>
+                                <div class="slash"> / </div>
+                                <div class="q-in-cat"> 2 </div>
+                            </div>
                         </li>
-                        <li>ENERGIA DOMU<div></div>
+                        <li>ENERGIA DOMU<div class="counter">
+                                <div class="q-nr"> 1 </div>
+                                <div class="slash"> / </div>
+                                <div class="q-in-cat"> 2 </div>
+                            </div>
                         </li>
-                        <li>JEDZENIE<div></div>
+                        <li>ODPADY<div class="counter">
+                                <div class="q-nr"> 1 </div>
+                                <div class="slash"> / </div>
+                                <div class="q-in-cat"> 2 </div>
+                            </div>
                         </li>
-                        <li>ODPADY<div></div>
+                        <li>JEDZENIE<div class="counter">
+                                <div class="q-nr"> 1 </div>
+                                <div class="slash"> / </div>
+                                <div class="q-in-cat"> 2 </div>
+                            </div>
                         </li>
-                        <li>CZAS WOLNY<div></div>
+                        <li>CZAS WOLNY<div class="counter">
+                                <div class="q-nr"> 1 </div>
+                                <div class="slash"> / </div>
+                                <div class="q-in-cat"> 2 </div>
+                            </div>
                         </li>
-                        <li>KONSUMPCJA<div></div>
+                        <li>KONSUMPCJA<div class="counter">
+                                <div class="q-nr"> 1 </div>
+                                <div class="slash"> / </div>
+                                <div class="q-in-cat"> 2 </div>
+                            </div>
                         </li>
                     </ul>
                 </div>
-                
+
 
                 <!-- <h3 class="page-number">1/7</h3> -->
                 <div class="form-button-container">
@@ -47,23 +73,24 @@
                     <button class="btn btn-left">
                     </button>
 
-                    <div class = "form-container">
+                    <div class="form-container">
                         <form class="form-box" autocomplete="off"></form>
-                        <button class="btn-next">Dalej</button>
+                        <div class="btn-next-box"><button class="btn-next">Dalej</button></div>
+
                     </div>
 
 
 
                     <button class="btn btn-right">
                     </button>
-        
+
                 </div>
 
-  
-                    <div class="info-box"></div>
-              
-                
-                
+
+                <div class="info-box"></div>
+
+
+
 
             </div>
 
@@ -73,11 +100,13 @@
 
 
         </div>
-        
+
     </section>
 
     <img class="logo" src="img/logo_CMYK_carbonfootprint_01_1.png" alt="">
-    <a href="#"><div class="btn-support">Wspieraj nas</div></a>
+    <a href="#">
+        <div class="btn-support">Wspieraj nas</div>
+    </a>
     <div class="more-info">Dowiedz się więcej o działalności <a href="#">naszej Fundacji</a></div>
     <div class="share"><img src="img/icons8-share-30.png" alt=""> <a href="">Udostępnij kalkulator znajomym</a> </div>
 

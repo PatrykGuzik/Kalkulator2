@@ -48,6 +48,7 @@ function myFunction(data) {
 		filterData.push(data[i]);
 	}
 
+
 	let filterDataLength = Object.keys(filterData).length;
 
 	const filterButton = document.querySelector(".filter-button");
@@ -81,9 +82,12 @@ function myFunction(data) {
 		header += "id,code,";
 		tableHeader += "<tr> <th>id</th> <th>code</th> ";
 
+		
+
 		for (let i = 0; i < filterDataLength; i++) {
 			const JSONData = JSON.parse(filterData[i].calc_answers);
 			const JSONDataLength = Object.keys(JSONData).length;
+		
 
 			row = [];
 			rowTableBody = "<tr>";
@@ -95,19 +99,20 @@ function myFunction(data) {
 			rowTableBody += `<td>${filterData[i].id}</td>`;
 			rowTableBody += `<td>${filterData[i].code}</td>`;
 
-			for (let j = 1; j <= JSONDataLength; j++) {
-				roundedJSONData = Number.parseFloat(JSONData[j]).toFixed(2);
-				transportSuma += Number.parseFloat(JSONData[j]);
-				row.push(roundedJSONData);
-				rowTableBody += `<td>${roundedJSONData}</td>`;
+			console.log(Object.keys(JSONData));
+			
+			for (let j = 0; j < JSONDataLength; j++) {
+				// console.log(Object.values(JSONData)[j]);
+				// TODO sprawdzić czy się zapisuje w odpowiedniej kolejności
+				rowTableBody += `<td>${Object.values(JSONData)[j]}</td>`;
 			}
 
 			csvFileData.push(row);
 
 			if (i == 0) {
-				for (let j = 1; j <= JSONDataLength; j++) {
-					header += `${j}`;
-					tableHeader += `<th>${j}</th>`;
+				for (let j = 0; j < JSONDataLength; j++) {
+					header += `${Object.keys(JSONData)[j]}`;
+					tableHeader += `<th>${Object.keys(JSONData)[j]}</th>`;
 					if (j < JSONDataLength) header += ",";
 					else header += "\n";
 				}

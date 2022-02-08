@@ -1,9 +1,14 @@
 let page = 1;
 let pages = {};
 let answers = [];
+let answersE = {};
 let calc_answers = [];
 let isValidate = true;
 let showInfo = false;
+
+let numbersQuestionsForCounter = {};
+
+let nrQuestionsInCategory = {};
 
 const bntLeft = document.querySelector(".btn-left");
 const bntRight = document.querySelector(".btn-right");
@@ -26,7 +31,6 @@ function DrawInfo(d) {
 	const infoBox = document.querySelector(".info-box");
 	for (let i = 0; i < Object.keys(allFormObjects).length; i++) {
 		allFormObjects[i].addEventListener("input", () => {
-			console.log("lol");
 			showAndHiddenInfo(d);
 			infoBox.style.opacity = "1";
 		});
@@ -52,12 +56,19 @@ function drawForms(d) {
 	let numbersOfQuestions = Object.keys(d).length;
 	let numbersOfPages = d[numbersOfQuestions - 1].page;
 
-	makePlaceForAnswers(numbersOfQuestions);
+	nrQuestionsInCategory = getNrQuestionsInCategory(d);
+
+	makePlaceForAnswers(d);
 	makePagesNrForView(numbersOfPages);
 
 	form = new Form(d, ".form-box");
 	form.drawInputsByType();
 	form.updateAndValidateInputs();
+
+// tymczasowe-------------------------
+	setNumbersQuestionsForCounter();
+	// getNumbersQuestionsOnPage(d);
+//-------------------------------------
 
 	const all_form_objects = document.querySelectorAll(".form-object");
 
@@ -72,32 +83,44 @@ function drawForms(d) {
 	bntRight.addEventListener("click", () => {
 		if (page < numbersOfPages) {
 			changePageIfIsValidate(form, true, d, all_form_objects, numbersOfPages);
+		} else {
+			updateView(form, d, all_form_objects, numbersOfPages);
+			getCalcValues();
+			location.href = "finish.html";
+			console.log("wysłane");
 		}
 	});
 
 	btnNext.addEventListener("click", () => {
 		if (page < numbersOfPages) {
 			changePageIfIsValidate(form, true, d, all_form_objects, numbersOfPages);
+			console.log(answersE);
+		} else {
+			updateView(form, d, all_form_objects, numbersOfPages);
+			getCalcValues();
+			location.href = "finish.html";
+			console.log("wysłane");
 		}
 	});
 
 	// PRZYCISK TYMCZASOWY
 	const bntTemp = document.querySelector(".btn-tmp");
 	bntTemp.addEventListener("click", () => {
-		if (page == numbersOfPages) {
+		if (page) {
 			updateView(form, d, all_form_objects, numbersOfPages);
 			getCalcValues();
 			console.log("wysłane");
 		}
+		// getNrQuestionsInCategory(d);
 	});
 }
 
 //---------------------------------------------------------------------------------
 
 // przygotowanie miejsca na odpowiedzi
-function makePlaceForAnswers(numbersOfQuestions) {
-	for (let i = 1; i < numbersOfQuestions + 1; i++) {
-		answers.push({ id: i, answer: null });
+function makePlaceForAnswers(data) {
+	for (let i = 0; i < Object.keys(data).length; i++) {
+		answersE[data[i].etykieta] = null;
 	}
 }
 
@@ -199,6 +222,7 @@ function hiddenInfo(infoDate) {
 const categoryName = document.querySelector(".category-name");
 
 const categories = categoryName.querySelectorAll("li");
+const counters = categoryName.querySelectorAll(".counter");
 
 function updateCategoryName(json) {
 	for (let i = 0; i < json.length; i++) {
@@ -207,11 +231,50 @@ function updateCategoryName(json) {
 				case "metryczka":
 					changeColorCat(0);
 					setStyleTransport();
+					setNrQuestionInCat("metryczka")
+					setQuestionNumber(page)
 					break;
 
 				case "transport":
 					changeColorCat(1);
+					setStyleTransport();
+					setNrQuestionInCat("transport");
+					setQuestionNumber(page);
+					break;
+
+				case "energia_domu":
+					changeColorCat(2);
 					setStyleHomeEnergy();
+					setNrQuestionInCat("energia_domu");
+					setQuestionNumber(page)
+					break;
+
+				case "odpady":
+					changeColorCat(3);
+					setStyleWaste();
+					setNrQuestionInCat("odpady");
+					setQuestionNumber(page)
+					break;
+
+				case "jedzenie":
+					changeColorCat(4);
+					setStyleFood();
+					setNrQuestionInCat("jedzenie");
+					setQuestionNumber(page)
+					break;
+
+				case "czas_wolny":
+					changeColorCat(5);
+					setStyleFreeTime();
+					setNrQuestionInCat("czas_wolny");
+					setQuestionNumber(page)
+					break;
+
+				case "konsumpcja":
+					changeColorCat(6);
+					setStyleConsumption();
+					setNrQuestionInCat("konsumpcja");
+					setQuestionNumber(page)
 					break;
 
 				default:
@@ -223,6 +286,7 @@ function updateCategoryName(json) {
 
 function changeColorCat(nrOfCategory) {
 	categories[nrOfCategory].classList.add("active-cat");
+	counters[nrOfCategory].classList.add("active-counter");
 
 	for (let i = 0; i < categories.length; i++) {
 		if (i == nrOfCategory) {
@@ -230,6 +294,7 @@ function changeColorCat(nrOfCategory) {
 		}
 		if (categories[i].classList.contains("active-cat")) {
 			categories[i].classList.remove("active-cat");
+			counters[i].classList.remove("active-counter");
 		}
 	}
 }
@@ -248,9 +313,93 @@ function getNumbersOfQuestionsOnPage() {
 		if (element.style.display != "none") {
 			numbers.push(parseInt(inputObjectId.question_nr, 10));
 		}
-		// console.log(element.style.display);
-		// console.log(inputObjectId.id);
 	});
 
 	console.log(numbers);
+}
+
+
+
+
+const questionInCat = document.querySelectorAll(".q-in-cat");
+function setNrQuestionInCat(category){
+	questionInCat.forEach(element => {
+		element.innerHTML= nrQuestionsInCategory[category]
+	});
+}
+
+function setNumbersQuestionsForCounter(){
+	local_pages = 1
+	for (let i = 0; i < Object.keys(nrQuestionsInCategory).length; i++) {
+		for (let j = 0; j < Object.values(nrQuestionsInCategory)[i]; j++) {
+
+			// console.log(local_pages + "---" + (j+1) + "---" + Object.keys(nrQuestionsInCategory)[i]);
+			numbersQuestionsForCounter[local_pages] = (j+1);
+
+			local_pages += 1;
+		}
+	}
+
+}
+
+let numbersQuestionsOnPage = {}
+function getNrQuestionsInCategory(data){
+	a = [];
+	b = [];
+	nrQuestionsInCategory = {
+		metryczka: 0,
+		transport: 0,
+		energia_domu: 0,
+		odpady: 0,
+		jedzenie: 0,
+		czas_wolny: 0,
+		konsumpcja: 0,
+	};
+	
+	for (let i = 0; i < Object.keys(data).length; i++){
+		console.log();
+		if(!a.includes(data[i].page+data[i].kategoria)){
+			a.push(data[i].page+data[i].kategoria)
+			b.push(data[i].kategoria)
+		}
+	}
+
+	for (let i = 0; i < b.length; i++) {
+		switch (b[i]) {
+			case "metryczka":
+				nrQuestionsInCategory["metryczka"] += 1;
+				break;
+			case "transport":
+				nrQuestionsInCategory["transport"] += 1;
+				break;
+			case "energia_domu":
+				nrQuestionsInCategory["energia_domu"] += 1;
+				break;
+			case "odpady":
+				nrQuestionsInCategory["odpady"] += 1;
+				break;
+			case "jedzenie":
+				nrQuestionsInCategory["jedzenie"] += 1;
+				break;
+			case "czas_wolny":
+				nrQuestionsInCategory["czas_wolny"] += 1;
+				break;
+			case "konsumpcja":
+				nrQuestionsInCategory["konsumpcja"] += 1;
+				break;
+			default:
+				break;
+		}
+	}
+
+	return nrQuestionsInCategory;
+}
+
+
+
+const questionNumber = document.querySelectorAll(".q-nr");
+function setQuestionNumber(page){
+	questionNumber.forEach(element => {
+		element.innerHTML = numbersQuestionsForCounter[page];
+	});
 }

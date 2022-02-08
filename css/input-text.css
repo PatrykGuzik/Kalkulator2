@@ -12,6 +12,10 @@
   display: inline-block;
 }
 
+.input-object{
+  margin-bottom: 5px;
+}
+
 .input-text-object span{
   position: absolute;
   color: rgb(133, 133, 133);
@@ -48,6 +52,7 @@ input[type=text] {
 input[type=text]:focus {
   outline: none;
 }
+
 
 
 .validate-input {

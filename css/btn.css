@@ -45,6 +45,7 @@
 }
 
 /* NEXT btn */
+
 .btn-next {
     display:inline-block;
     padding: 8px 32px;
@@ -53,7 +54,7 @@
     border-radius: 7px;
     color: white;
     font-size: 20px;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
 }
 
 

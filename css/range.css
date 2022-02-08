@@ -1,12 +1,28 @@
 :root{
 	--rangeColor: rgb(55, 68, 112);
-	--whellColor: rgb(255, 255, 255);
+	--rangeWhellColor: rgb(255, 255, 255);
+}
+
+.main-question-slider-percent{
+	margin-bottom: 20px;
+}
+
+.slider-percent-value{
+	font-size: 20px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 5px;
+	width: 80px;
+	background-color: var(--rangeColor);
 }
 
 .slider-value{
     background-color: var(--rangeColor);
     color: var(--whellColor);
-    font-size: 13px;
+    font-size: 14px;
+	font-weight: 500;
     display: inline-block;
     padding: 7px;
     margin: 10px;
@@ -31,6 +47,6 @@
 	width: 30px;
 	height: 30px;
 	background-color: var(--rangeColor);
-	border: 3px solid var(--whellColor);
+	border: 3px solid var(--rangeWhellColor);
 	border-radius: 50%;
 }

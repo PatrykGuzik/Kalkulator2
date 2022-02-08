@@ -55,11 +55,11 @@ class Form {
 		// Ważne: nie mylić page z answers[x]
 
 		// TRANSPORT (Ile km przejeżdżasz samochodem?)
-		if (answers[4].answer > 0) this._setStatusPages([4, 5], true);
+		if (answersE["T_samochod"] > 0) this._setStatusPages([4, 5], true);
 		else this._setStatusPages([4, 5], false);
 
 		// TRANSPORT (Ile km przejeżdżasz jednośladem?)
-		if (answers[6].answer > 0) this._setStatusPages([6, 7], true);
+		if (answersE["T_motor"] > 0) this._setStatusPages([6, 7], true);
 		else this._setStatusPages([6, 7], false);
 	}
 
@@ -87,7 +87,7 @@ class Form {
 			subQuestions += `
 				<div style="display:inline-block">
 					<div>${subQuestion}</div>
-                	<input id="${question.question_nr}" type="text" class="input-object">  
+                	<input id="${question.question_nr}" type="text" maxlength="4" class="input-object">  
 				</div>
             `;
 		}
@@ -121,10 +121,17 @@ class Form {
 			header = "";
 		}
 
-		return `<div class="form-object input-text-object">  
+		// console.log(question.etykieta);
+
+		// zmiana: question.question_nr na question.etykieta
+		return `<div class="form-object input-text-object ${this.getLastObjectClassOnPage(
+			question
+		)} ${question.etykieta}">  
                     <p>${header}</p>
 					${subquestion}
-					<input id="${question.question_nr}" type="text" class="input-object"> <span>${unit}</span>
+					<input id="${
+						question.etykieta
+					}" type="text" maxlength="5" class="input-object"> <span>${unit}</span>
 					<p class="validate-input"> wpisz liczbę większą lub równą 0 </p>
 					
                 </div>`;
@@ -140,9 +147,11 @@ class Form {
 				const inputTextValue = parseInt(inputObject.value, 10);
 
 				if (Number.isInteger(inputTextValue) && inputTextValue >= 0) {
-					answers[inputObjectId - 1].answer = inputTextValue;
+					// answers[inputObjectId - 1].answer = inputTextValue;
+					answersE[inputObjectId] = inputTextValue;
 				} else {
-					answers[inputObjectId - 1].answer = null;
+					// answers[inputObjectId - 1].answer = null;
+					answersE[inputObjectId] = null;
 				}
 
 				this.isFull();
@@ -155,19 +164,41 @@ class Form {
 		}
 	}
 
+	getLastObjectClassOnPage(question) {
+		let lastOnPage = "";
+
+		if (this.isLastQuestionOnPage(question)) {
+			lastOnPage += `last-on-page`;
+		} else {
+			lastOnPage = "";
+		}
+
+		return lastOnPage;
+	}
+
 	drawRadio(question) {
 		let subQuestions = "";
 		let numberOfSubQuestions = Object.keys(
 			question.mozliwe_odpowiedzi_pl.split(";")
 		).length;
 
+		let lastOnPage = "";
+
+		if (this.isLastQuestionOnPage(question)) {
+			lastOnPage += `last-on-page`;
+		} else {
+			lastOnPage = "";
+		}
+
 		for (let j = 0; j < numberOfSubQuestions; j++) {
 			let subQuestion = question.mozliwe_odpowiedzi_pl.split(";")[j];
 			subQuestions += `<label> 
-                <input id="${question.question_nr}" type="radio" name="r${question.question_nr}" class="radio input-object">  <span>${subQuestion}</span>
+                <input id="${question.etykieta}" type="radio" name="r${question.question_nr}" class="radio input-object">  <span>${subQuestion}</span>
             </label>`;
 		}
-		return `<div class="form-object radio-object">  
+		return `<div class="form-object radio-object ${this.getLastObjectClassOnPage(
+			question
+		)} ${question.etykieta}">  
                     <h3>${question.pytanie_pl}</h3> 
                     ${subQuestions}
 					<div class="validate-radio-box"><p class="validate-radio"> Zaznacz jedną odpowiedź </p></div>
@@ -196,7 +227,8 @@ class Form {
 					}
 				}
 
-				answers[inputObjectId - 1].answer = inputRadioValue;
+				// answers[inputObjectId - 1].answer = inputRadioValue;
+				answersE[inputObjectId] = inputRadioValue;
 
 				this.isFull();
 				inputRadio[i].querySelector(".validate-radio").style.opacity = "0";
@@ -214,33 +246,23 @@ class Form {
 
 		for (let i = 0; i < formsOnPage.length; i++) {
 			if (answersOnPage[i] == null) {
-				if (formObject[formsOnPage[i] - 1].classList.contains("radio-object")) {
-					formObject[formsOnPage[i] - 1].querySelector(
-						".validate-radio"
-					).style.opacity = "1";
-					formObject[formsOnPage[i] - 1].querySelector(
-						".validate-radio"
-					).style.transform = "translateY(0)";
-					formObject[formsOnPage[i] - 1].querySelector(
-						".validate-radio"
-					).style.fontSize = "14px";
+				const a = document.querySelector(`.${formsOnPage[i]}`);
+			
+				if (a.classList.contains("radio-object")) {
+					const b = a.querySelector(".validate-radio");
+					b.style.opacity = "1";
+					b.style.transform = "translateY(0)";
+					b.style.fontSize = "14px";
+					
 				}
-				if (
-					formObject[formsOnPage[i] - 1].classList.contains("input-text-object")
-				) {
-					// formObject[formsOnPage[i] - 1].querySelector(
-					// 	".validate-input"
-					// ).style.display = "block";
-					formObject[formsOnPage[i] - 1].querySelector(
-						".validate-input"
-					).style.opacity = "1";
-					formObject[formsOnPage[i] - 1].querySelector(
-						".validate-input"
-					).style.transform = "translateY(0)";
-					formObject[formsOnPage[i] - 1].querySelector(
-						".validate-input"
-					).style.fontSize = "14px";
+
+				if (a.classList.contains("input-text-object")) {
+					const b = a.querySelector(".validate-input");
+					b.style.opacity = "1";
+					b.style.transform = "translateY(0)";
+					b.style.fontSize = "14px";
 				}
+
 			}
 		}
 	}
@@ -262,20 +284,39 @@ class Form {
 		formObject.forEach(element => {
 			let inputObjectId = element.querySelector(".input-object").id;
 			if (element.style.display != "none") {
-				formsOnPage.push(parseInt(inputObjectId, 10));
+				// formsOnPage.push(parseInt(inputObjectId, 10));
+				formsOnPage.push(inputObjectId);
 			}
 		});
+		// console.log(formsOnPage);
 		return formsOnPage;
 	}
 
 	_getAnswersOnPage(formsOnPage) {
 		const answersOnPage = [];
+
 		for (let i = 0; i < formsOnPage.length; i++) {
-			answers.forEach(element => {
-				if (element.id == formsOnPage[i]) {
-					answersOnPage.push(element.answer);
-				}
-			});
+			// answers.forEach(element => {
+			// 	if (element.id == formsOnPage[i]) {
+			// 		answersOnPage.push(element.answer);
+			// 	}
+			// });
+
+			// console.log(answersE[formsOnPage[i]]);
+			if (answersE[formsOnPage[i]] != null) {
+				answersOnPage.push(answersE[formsOnPage[i]]);
+			} else {
+				answersOnPage.push(null);
+			}
+
+			// for (let j = 0; j < Object.keys(answersE).length; j++) {
+			// 	if (Object.keys(answersE)[j] == formsOnPage[i]) {
+			// 		answersOnPage[i] = (Object.values(answersE)[i]);
+
+			// 	}
+
+			// 	console.log("--" + Object.values(answersE)[i]);
+			// }
 		}
 		return answersOnPage;
 	}
@@ -288,13 +329,16 @@ class Form {
 
 		for (let j = 0; j < numberOfSubQuestions; j++) {
 			let subQuestion = question.mozliwe_odpowiedzi_pl.split(";")[j];
-			subQuestions += `<label style="display:block"> 
-                <input id="${question.question_nr}" type="checkbox" name="c${question.question_nr}" class="input-object">  ${subQuestion}
+			subQuestions += `<label class="checkbox-container"> <p>${subQuestion}</p>
+                <input id="${question.etykieta}" type="checkbox" name="c${question.question_nr}" class="input-object">   
+				<span class="checkmark"></span>
             </label>`;
 		}
-		return `<div class="form-object checkbox-object">  
-                    <h3>${question.pytanie_pl}</h3> 
-                    ${subQuestions}
+		return `<div class="form-object checkbox-object ${this.getLastObjectClassOnPage(question)}">  
+					<h3>${question.pytanie_pl}</h3> 
+					<div class="checkbox-box">
+                    	${subQuestions}
+					</div>
                 </div>`;
 	}
 
@@ -312,7 +356,8 @@ class Form {
 				inputValues.push(element.checked);
 			});
 
-			answers[inputObjectId - 1].answer = inputValues;
+			// answers[inputObjectId - 1].answer = inputValues;
+			answersE[inputObjectId] = inputValues;
 
 			inputCheckbox[i].addEventListener("input", () => {
 				const inputValues = [];
@@ -320,7 +365,8 @@ class Form {
 					inputValues.push(element.checked);
 				});
 
-				answers[inputObjectId - 1].answer = inputValues;
+				// answers[inputObjectId - 1].answer = inputValues;
+				answersE[inputObjectId] = inputValues;
 
 				this.isFull();
 			});
@@ -355,11 +401,17 @@ class Form {
 
 		const middleValue = Number.parseInt(numberOfSubQuestions / 2);
 
-		return `<div class="form-object slider-object">  
+		return `<div class="form-object slider-object ${this.getLastObjectClassOnPage(
+			question
+		)}">  
                     ${header}
                     ${subQuestion}
-                    <div class="slider-value">${subQuestions[middleValue]}</div></br>
-                    <input id="${question.question_nr}" type="range" min="1" max="${numberOfSubQuestions}" class="input-object slider"> 
+                    <div class="slider-value">${
+											subQuestions[middleValue]
+										}</div></br>
+                    <input id="${
+											question.etykieta
+										}" type="range" min="1" max="${numberOfSubQuestions}" class="input-object slider"> 
                     <p class="slider-describe">${describes[middleValue]}</p>
                 </div>`;
 	}
@@ -392,17 +444,20 @@ class Form {
 				sliderDescribe.innerHTML =
 					sliderObjectsList[i].range_pl_opis.split(";")[inputObject.value - 1];
 
-				answers[inputObjectId - 1].answer = parseInt(inputObject.value, 10);
+				// answers[inputObjectId - 1].answer = parseInt(inputObject.value, 10);
+				answersE[inputObjectId] = parseInt(inputObject.value, 10);
 
 				this.isFull();
 			});
 
-			answers[inputObjectId - 1].answer = parseInt(inputObject.value, 10);
+			// answers[inputObjectId - 1].answer = parseInt(inputObject.value, 10);
+			answersE[inputObjectId] = parseInt(inputObject.value, 10);
 		}
 	}
 
 	drawSliderPercent(question) {
 		let header = "";
+		let subQuestion = "";
 
 		if (this.isFirstQuestionOnPage(question)) {
 			header += `<h3 class="main-question-slider-percent"> ${question.pytanie_pl} </h3> `;
@@ -410,11 +465,19 @@ class Form {
 			header = "";
 		}
 
-		return `<div class="form-object slider-percent-object">  
+		if (question.pytanie_pomocnicze_pl != null) {
+			subQuestion += `<p><b>${question.pytanie_pomocnicze_pl}</b></p>`;
+		}
+
+		return `<div class="form-object slider-percent-object ${this.getLastObjectClassOnPage(
+			question
+		)} ${question.etykieta}">  
                     ${header}
-                    <p><b>${question.pytanie_pomocnicze_pl}</b></p>
+                    <p><b>${subQuestion}</b></p>
                     <p class="slider-percent-value">50%</p>
-                    <input id="${question.question_nr}" type="range" min="0" max="100" class="input-object slider"> 
+                    <input id="${
+											question.etykieta
+										}" type="range" min="0" max="100" class="input-object slider"> 
                     
                 </div>`;
 	}
@@ -426,7 +489,7 @@ class Form {
 
 		for (let i = 0; i < Object.keys(inputSlidersPercent).length; i++) {
 			const inputObject = inputSlidersPercent[i].querySelector(".input-object");
-			const inputObjectId = inputObject.question_nr;
+			const inputObjectId = inputObject.id;
 
 			inputSlidersPercent[i].addEventListener("input", () => {
 				const sliderValue = inputSlidersPercent[i].querySelector(
@@ -438,16 +501,23 @@ class Form {
 				sliderValue.innerHTML = `${inputObject.value}%`;
 
 				this.isFull();
+				answersE[inputObjectId] = parseInt(inputObject.value, 10) / 100;
 			});
-			answers[inputObjectId - 1].answer = parseInt(inputObject.value, 10) / 100;
+			// answers[inputObjectId - 1].answer = parseInt(inputObject.value, 10) / 100;
+			answersE[inputObjectId] = parseInt(inputObject.value, 10) / 100;
 		}
 	}
 
-	isFirstQuestionOnPage(questionSlider) {
-		let listOfquestionsOnPage = this.getListQuestionstOnPage(
-			questionSlider.page
-		);
-		if (listOfquestionsOnPage[0] == questionSlider) return true;
+	isFirstQuestionOnPage(question) {
+		let listOfquestionsOnPage = this.getListQuestionstOnPage(question.page);
+		if (listOfquestionsOnPage[0] == question) return true;
+		else return false;
+	}
+
+	isLastQuestionOnPage(question) {
+		let listOfquestionsOnPage = this.getListQuestionstOnPage(question.page);
+		if (listOfquestionsOnPage[listOfquestionsOnPage.length - 1] == question)
+			return true;
 		else return false;
 	}
 
