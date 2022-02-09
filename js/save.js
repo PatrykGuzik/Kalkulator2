@@ -23,6 +23,17 @@ function sendToBase() {
 }
 
 function saveToCalcAnswers(data) {
+	// Podsumowanie
+	let TRANSPORT = 0;
+	let ENERGIA_DOMU = 0;
+	let ODPADY = 0;
+	let JEDZENIE = 0;
+	let CZAS_WOLNY = 0;
+	let KONSUMPCJA = 0;
+
+	dniWRoku = 364;
+	tygWRoku = 52;
+
 	//-----------------------------------Metryczka----------------------------------------
 	answersToSend["M_plec"] = answersE["M_plec"];
 	answersToSend["M_wiek"] = answersE["M_wiek"];
@@ -33,7 +44,7 @@ function saveToCalcAnswers(data) {
 	// Samochód
 	spalanie = answersE["T_samochSpalanie"];
 	ileKm = answersE["T_samochod"] / 7;
-	dniWRoku = 364;
+
 	benzyna = 1;
 	diesel = 2;
 	lpg = 3;
@@ -133,6 +144,242 @@ function saveToCalcAnswers(data) {
 	}
 
 	//---------------------------ENERGIA DOMU-----------------------------
+	// energooszczednosc budynku E_budynekEfficient
+	domPasywny = getValue("domPasywny");
+	domEnergooszczedny = getValue("domEnergooszczedny");
+	domSrEn = getValue("domSrEn");
+	domMalEn = getValue("domMalEn");
+	domBMalEn = getValue("domBMalEn");
+
+	oszczBud = answersE["E_budynekEfficient"];
+	wlkBud = answersE["E_wielkoscDomu"];
+	zrodloOgrz = answersE["E_zrodlaOgrzewania"];
+
+	oszczBudValue = 0;
+	switch (oszczBud) {
+		case 1:
+			oszczBudValue = domBMalEn;
+			break;
+		case 2:
+			oszczBudValue = domMalEn;
+			break;
+		case 3:
+			oszczBudValue = domSrEn;
+			break;
+		case 4:
+			oszczBudValue = domEnergooszczedny;
+			break;
+		case 5:
+			oszczBudValue = domPasywny;
+			break;
+		default:
+			break;
+	}
+
+	ogrzPrad = getValue("ogrzPrad");
+	ogrzWegiel = getValue("ogrzWegiel");
+	ogrzGaz = getValue("ogrzGaz");
+	ogrzPompCi = getValue("ogrzPompCi");
+	ogrzOlej = getValue("ogrzOlej");
+	ogrzBiomas = getValue("ogrzBiomas");
+	ogrzCent = getValue("ogrzCent");
+
+	pradKgCO2kWh = getValue("pradKgCO2kWh");
+
+	zrodloOgrzValue = 0;
+	switch (zrodloOgrz) {
+		case 1:
+			zrodloOgrzValue = ogrzPrad;
+			break;
+		case 2:
+			zrodloOgrzValue = ogrzWegiel;
+			break;
+		case 3:
+			zrodloOgrzValue = ogrzGaz;
+			break;
+		case 4:
+			zrodloOgrzValue = ogrzPompCi * pradKgCO2kWh;
+			break;
+		case 5:
+			zrodloOgrzValue = ogrzOlej;
+			break;
+		case 6:
+			zrodloOgrzValue = ogrzBiomas;
+			break;
+		case 7:
+			zrodloOgrzValue = ogrzCent;
+			break;
+		case 8:
+			zrodloOgrzValue = ogrzPrad;
+			break;
+		default:
+			break;
+	}
+
+	answersToSend["E_budynekEfficient"] =
+		zrodloOgrzValue * oszczBudValue * wlkBud;
+
+	// prysznic E_prysznic
+	ogrzWoda = answersE["E_zrodlaWoda"];
+	prysznicIle = answersE["E_prysznicIle"];
+	kapielIle = answersE["E_kapielIle"];
+	prysznicCzas = answersE["E_prysznicCzas"];
+
+	prysznic = getValue("prysznic");
+	kapiel = getValue("kapiel");
+
+	ogrzWodaValue = 0;
+
+	switch (ogrzWoda) {
+		case 1:
+			ogrzWodaValue = ogrzPrad;
+			break;
+		case 2:
+			ogrzWodaValue = ogrzWegiel;
+			break;
+		case 3:
+			ogrzWodaValue = ogrzGaz;
+			break;
+		case 4:
+			ogrzWodaValue = ogrzPompCi;
+			break;
+		case 5:
+			ogrzWodaValue = ogrzOlej;
+			break;
+		case 6:
+			ogrzWodaValue = ogrzBiomas;
+			break;
+		case 7:
+			ogrzWodaValue = ogrzCent;
+			break;
+		case 8:
+			ogrzWodaValue = ogrzPrad;
+			break;
+
+		default:
+			break;
+	}
+
+	prysznicToSend =
+		prysznicIle * prysznic * tygWRoku * prysznicCzas * ogrzWodaValue;
+	answersToSend["E_prysznic"] = prysznicToSend;
+
+	// kapiel E_kapiel
+	kapielToSend = kapielIle * kapiel * tygWRoku * ogrzWodaValue;
+	answersToSend["E_kapiel"] = kapielToSend;
+
+	// kolektory E_kolektory
+	czyKolektory = getValue("czyKolektory");
+	kolektory = answersE["E_kolektory"];
+
+	kolektoryValue = 0;
+	switch (kolektory) {
+		case 1:
+			answersToSend["E_kolektory"] =
+				(prysznicToSend + kapielToSend) * czyKolektory * -1;
+			break;
+		case 2:
+			answersToSend["E_kolektory"] = 0;
+			break;
+
+		default:
+			break;
+	}
+	// prad pradKgCO2kWh
+	rachunki = answersE["E_rachunkiEnergia"];
+	pradCena = getValue("pradCena");
+	answersToSend["E_prad"] = (rachunki / pradCena) * pradKgCO2kWh * 12;
+
+	// pranie E_pranie,  suszenie E_suszenie
+
+	pranieJakCzesto = answersE["E_pranieCzest"];
+
+	pranieRWM = getValue("pranieRWM");
+	pranieCDT = getValue("pranieCDT");
+	pranieCT = getValue("pranieCT");
+	pranieDRWT = getValue("pranieDRWT");
+	pranieC = getValue("pranieC");
+
+	pranieJakCzestoValue = 0;
+	switch (pranieJakCzesto) {
+		case 1:
+			pranieJakCzestoValue = pranieRWM;
+			break;
+		case 2:
+			pranieJakCzestoValue = pranieCDT;
+			break;
+		case 3:
+			pranieJakCzestoValue = pranieCT;
+			break;
+		case 4:
+			pranieJakCzestoValue = pranieDRWT;
+			break;
+		case 5:
+			pranieJakCzestoValue = pranieC;
+			break;
+
+		default:
+			break;
+	}
+
+	pranieTemp = answersE["E_pranieTemp"];
+
+	pranie30 = getValue("pranie30");
+	pranie40 = getValue("pranie40");
+	pranie60 = getValue("pranie60");
+
+	pranieTempValue = 0;
+	switch (pranieTemp) {
+		case 1:
+			pranieTempValue = pranie30;
+			break;
+		case 2:
+			pranieTempValue = pranie40;
+			break;
+		case 3:
+			pranieTempValue = pranie60;
+			break;
+
+		default:
+			break;
+	}
+
+	suszenie = answersE["E_suszenie"];
+	suszEl = getValue("suszEl");
+
+	suszenieValue = 0;
+	switch (suszenie) {
+		case 1:
+			suszenieValue = 0;
+			break;
+		case 2:
+			suszenieValue = pranieJakCzestoValue * suszEl;
+			break;
+
+		default:
+			break;
+	}
+
+
+	pranieToSend = pranieJakCzestoValue * pranieTempValue + suszenieValue;
+	answersToSend["E_pranie"] = pranieToSend;
+
+
+	osobWMieszk = answersE["E_mieszkaOsoby"];
+
+	console.log(osobWMieszk);
+	console.log(answersToSend["E_budynekEfficient"]);
+	console.log(answersToSend["E_prad"]);
+	console.log(answersToSend["E_prysznic"]);
+	console.log(answersToSend["E_kapiel"]);
+	console.log(answersToSend["E_kolektory"]);
+
+	ENERGIA_DOMU =
+		(answersToSend["E_budynekEfficient"] + answersToSend["E_prad"]) /
+			osobWMieszk +
+		(answersToSend["E_prysznic"] +
+			answersToSend["E_kapiel"] +
+			answersToSend["E_kolektory"] / osobWMieszk);
 
 	//---------------------------ODPADY-----------------------------------
 
@@ -309,14 +556,6 @@ function saveToCalcAnswers(data) {
 
 	//-------------------------KONSUMPCJA---------------------------------
 
-	// Podsumowanie
-	let TRANSPORT = 0;
-	let ENERGIA_DOMU = 0;
-	let ODPADY = 0;
-	let JEDZENIE = 0;
-	let CZAS_WOLNY = 0;
-	let KONSUMPCJA = 0;
-
 	for (let i = 0; i < Object.keys(answersToSend).length; i++) {
 		if (Object.keys(answersToSend)[i].charAt(0) == "T") {
 			TRANSPORT += Number.parseInt(Object.values(answersToSend)[i]);
@@ -325,7 +564,6 @@ function saveToCalcAnswers(data) {
 			JEDZENIE += Number.parseInt(Object.values(answersToSend)[i]);
 		}
 	}
-
 
 	// Wysyłanie do danych sesyjnych
 	sessionStorage.setItem("TRANSPORT", TRANSPORT);

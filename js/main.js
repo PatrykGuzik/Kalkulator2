@@ -1,4 +1,4 @@
-let page = 1;
+let page = 10;
 let pages = {};
 let answers = [];
 let answersE = {};
