@@ -1,4 +1,4 @@
-let page = 10;
+let page = 1;
 let pages = {};
 let answers = [];
 let answersE = {};
@@ -14,7 +14,25 @@ const bntLeft = document.querySelector(".btn-left");
 const bntRight = document.querySelector(".btn-right");
 const btnNext = document.querySelector(".btn-next");
 
+//Loading---------------------------------------------------------------------------
+const loader = document.querySelector(".loading");
+
+function displayLoading(){
+	loader.classList.add("display");
+
+	setTimeout(()=>{
+		loader.classList.remove("display")
+	},5000)
+}
+
+function hideLoading(){
+	loader.classList.remove("display")
+}
+
 //Fetch ---------------------------------------------------------------------------------------------------
+
+displayLoading();
+
 fetch("http://127.0.0.1:8000/api/questions/?format=json")
 	.then(response => response.json())
 	.then(data => drawForms(data));
@@ -53,7 +71,13 @@ function DrawInfo(d) {
 }
 
 function drawForms(d) {
+	setTimeout(()=>{
+		hideLoading()
+	},1000)
+	
+
 	let numbersOfQuestions = Object.keys(d).length;
+	//TODO: zmienić sposób ustalania ostatniej strony
 	let numbersOfPages = d[numbersOfQuestions - 1].page;
 
 	nrQuestionsInCategory = getNrQuestionsInCategory(d);

@@ -360,19 +360,10 @@ function saveToCalcAnswers(data) {
 			break;
 	}
 
-
 	pranieToSend = pranieJakCzestoValue * pranieTempValue + suszenieValue;
 	answersToSend["E_pranie"] = pranieToSend;
 
-
 	osobWMieszk = answersE["E_mieszkaOsoby"];
-
-	console.log(osobWMieszk);
-	console.log(answersToSend["E_budynekEfficient"]);
-	console.log(answersToSend["E_prad"]);
-	console.log(answersToSend["E_prysznic"]);
-	console.log(answersToSend["E_kapiel"]);
-	console.log(answersToSend["E_kolektory"]);
 
 	ENERGIA_DOMU =
 		(answersToSend["E_budynekEfficient"] + answersToSend["E_prad"]) /
@@ -385,10 +376,34 @@ function saveToCalcAnswers(data) {
 
 	// O_odpadBio O_odpadPapier O_odpadPlastik O_odpadSzklo O_odpadJedzenie
 
-	bio = getValue("bio");
-	pcBio = answersE["O_odpadBio"];
+	pcBio = answersE["O_odpadBio"] * 100;
+	pcPapier = answersE["O_odpadPapier"] * 100;
+	pcPlastik = answersE["O_odpadPlastik"] * 100;
+	pcJedzenie = answersE["O_odpadJedzenie"];
 
-	// console.log("----"+bio+' '+pcBio);
+	bioRec = getValue("bioRec");
+	papierRec = getValue("papierRec");
+	plastikRec = getValue("plastikRec");
+
+	bioSp = getValue("bioSp");
+	papierSp = getValue("papierSp");
+	plastikSp = getValue("plastikSp");
+
+	odpJedzenie = getValue("odpJedzenie");
+
+	getWasteValue = (pc, rec, sp) => pc * rec + (100 - pc) * sp;
+
+	bioValue = getWasteValue(pcBio, bioRec, bioSp);
+	answersToSend["O_odpadBio"] = bioValue;
+
+	papierValue = getWasteValue(pcPapier, papierRec, papierSp);
+	answersToSend["O_odpadPapier"] = papierValue;
+
+	plastikValue = getWasteValue(pcPlastik, plastikRec, plastikSp);
+	answersToSend["O_odpadPlastik"] = plastikValue;
+
+	jedzenieValue = pcJedzenie * odpJedzenie * -1;
+	answersToSend["O_odpadJedzenie"] = jedzenieValue;
 
 	//---------------------------JEDZENIE---------------------------------
 
@@ -552,16 +567,250 @@ function saveToCalcAnswers(data) {
 		default:
 			break;
 	}
+
 	//---------------------------CZAS WOLNY-------------------------------
 
+	// wakacje
+	dniWakacji = answersE["C_dniWakacji"];
+	cechyWakacji = answersE["C_cechyWakacji"];
+	srDzienNaWakacjach = getValue("srDzienNaWakacjach");
+
+	wRejsOdp = cechyWakacji[0];
+	wEgzOdp = cechyWakacji[1];
+	wZagHotelOdp = cechyWakacji[2];
+	wOrganOdp = cechyWakacji[3];
+	wZagPociagOdp = cechyWakacji[4];
+	wKrajOdp = cechyWakacji[5];
+	wNamiotOdp = cechyWakacji[6];
+	wNieorganOdp = cechyWakacji[7];
+	wSasiadOdp = cechyWakacji[8];
+	wZagOdp = cechyWakacji[9];
+
+	wRejs = 0;
+	wEgz = getValue("wEgz");
+	wZagHotel = getValue("wZagHotel");
+	wOrgan = getValue("wOrgan");
+	wZagPociag = getValue("wZagPociag");
+	wKraj = getValue("wKraj");
+	wNamiot = getValue("wNamiot");
+	wNieorgan = getValue("wNieorgan");
+	wSasiad = getValue("wSasiad");
+	wZag = getValue("wZag");
+
+	setHolidayTraits = (odp, wTrait, wValue, toSend) => {
+		if (odp) wTrait = getValue(wValue) * dniWakacji;
+		answersToSend[toSend] = wTrait;
+	};
+
+	setHolidayTraits(wRejsOdp, wRejs, "wRejs", "C_rejs");
+	setHolidayTraits(wEgzOdp, wEgz, "wEgz", "C_egzotyczneLoty");
+	setHolidayTraits(wZagHotelOdp, wZagHotel, "wZagHotel", "C_zagraniczneHotele");
+	setHolidayTraits(wOrganOdp, wOrgan, "wOrgan", "C_zagraniczneOrganizacje");
+	setHolidayTraits(wZagPociagOdp, wZagPociag, "wZagPociag", "C_wakacjePociag");
+	setHolidayTraits(wKrajOdp, wKraj, "wKraj", "C_wakacjeKrajowe");
+	setHolidayTraits(wNamiotOdp, wNamiot, "wNamiot", "C_wakacjeCamping");
+	setHolidayTraits(wNieorganOdp, wNieorgan, "wNieorgan", "C_wakacjeSamoorga");
+	setHolidayTraits(wSasiadOdp, wSasiad, "wSasiad", "C_wakacjeBlisko");
+	setHolidayTraits(wZagOdp, wZag, "wZag", "C_wakacjeZagraniczne");
+
+	answersToSend["C_wakacjeSr"] = dniWakacji * srDzienNaWakacjach;
+
+	// czas wolny w domu
+	ksiazkaOdp = answersE["C_booksPapier"];
+	ebookOdp = answersE["C_eBooks"];
+	filmOdp = answersE["C_netflixTime"];
+	muzykaOdp = answersE["C_musicTime"];
+	netOdp = answersE["C_onlineTime"];
+
+	ksiazka = getValue("ksiazka");
+	ebook = getValue("ebook");
+	film = getValue("film");
+	muzyka = getValue("muzyka");
+	net = getValue("net");
+
+	answersToSend["C_booksPapier"] = ksiazkaOdp * ksiazka;
+	answersToSend["C_eBooks"] = ebookOdp * ebook;
+	answersToSend["C_netflix"] = filmOdp * film * tygWRoku;
+	answersToSend["C_music"] = muzykaOdp * muzyka * tygWRoku;
+	answersToSend["C_online"] = netOdp * net * tygWRoku;
+
+	// console.log(answersToSend["C_wakacjeSr"]);
+	// console.log(answersToSend["C_booksPapier"]);
+	// console.log(answersToSend["C_eBooks"]);
+	// console.log(answersToSend["C_netflix"]);
+	// console.log(answersToSend["C_music"]);
+	// console.log(answersToSend["C_online"]);
 	//-------------------------KONSUMPCJA---------------------------------
+	//nowe ubrania
+	ileUbranOdp = answersE["K_noweUbrania"];
+	materialOdp = answersE["K_rodzajMaterialu"];
+
+	matNat = getValue("matNat");
+	matNatIInne = getValue("matNatIInne");
+	matSztucz = getValue("matSztucz");
+
+	//buty
+	butSkoraOdp = answersE["K_skora"];
+	butGumaOdp = answersE["K_guma"];
+	butSkoropodOdp = answersE["K_skoropod"];
+	butTkaninaOdp = answersE["K_tkanina"];
+	butInneOdp = answersE["K_inne"];
+
+	butSkora = getValue("butSkora");
+	butGuma = getValue("butGuma");
+	butSkoropod = getValue("butSkoropod");
+	butTkanina = getValue("butTkanina");
+	butInne = getValue("butInne");
+
+	noweUbrania = 0;
+	switch (materialOdp) {
+		case 1:
+			noweUbrania = ileUbranOdp * matNat;
+			break;
+		case 2:
+			noweUbrania = ileUbranOdp * matNatIInne;
+			break;
+		case 3:
+			noweUbrania = ileUbranOdp * matSztucz;
+			break;
+
+		default:
+			break;
+	}
+	answersToSend["K_noweUbrania"] = noweUbrania;
+
+	answersToSend["K_skora"] = butSkoraOdp * butSkora;
+	answersToSend["K_guma"] = butGumaOdp * butGuma;
+	answersToSend["K_skoropod"] = butSkoropodOdp * butSkoropod;
+	answersToSend["K_tkanina"] = butTkaninaOdp * butTkanina;
+	answersToSend["K_inne"] = butInneOdp * butInne;
+
+	//zakupy -> stac/internet
+	zakupyJakOdp = answersE["K_sklepy"];
+	zakupyJakCzestoOdp = answersE["K_zakupyCzest"];
+
+	sklStac = getValue("sklStac");
+	sklInPl = getValue("sklInPl");
+	sklInEu = getValue("sklInEu");
+	sklInMK = getValue("sklInMK");
+
+	sklepValue = 0;
+	switch (zakupyJakOdp) {
+		case 1:
+			sklepValue = sklStac;
+			break;
+		case 2:
+			sklepValue = sklInPl;
+			break;
+		case 3:
+			sklepValue = sklInEu;
+			break;
+		case 4:
+			sklepValue = sklInMK;
+			break;
+
+		default:
+			break;
+	}
+
+	zak1NaRok = getValue("zak1NaRok");
+	zak2NaRok = getValue("zak2NaRok");
+	zak4NaRok = getValue("zak4NaRok");
+	zakCo2Mies = getValue("zakCo2Mies");
+	zakCo1Mies = getValue("zakCo1Mies");
+	zakCo2Tyg = getValue("zakCo2Tyg");
+	zakCo1Tyg = getValue("zakCo1Tyg");
+	zakCzes = getValue("zakCzes");
+
+	zakupyValue = 0;
+	switch (zakupyJakCzestoOdp) {
+		case 1:
+			zakupyValue = zak1NaRok;
+			break;
+		case 2:
+			zakupyValue = zak2NaRok;
+			break;
+		case 3:
+			zakupyValue = zak4NaRok;
+			break;
+		case 4:
+			zakupyValue = zakCo2Mies;
+			break;
+		case 5:
+			zakupyValue = zakCo1Mies;
+			break;
+		case 6:
+			zakupyValue = zakCo2Tyg;
+			break;
+		case 7:
+			zakupyValue = zakCo1Tyg;
+			break;
+		case 8:
+			zakupyValue = zakCzes;
+			break;
+
+		default:
+			break;
+	}
+	answersToSend["K_zakupy"] = zakupyValue * sklepValue;
+	
+
+	//higiena
+	kosmetykiIleOdp = answersE["K_kosmetyki"];
+	zakKosmetyki = getValue("zakKosmetyki");
+
+	answersToSend["K_kosmetyki"] = kosmetykiIleOdp*zakKosmetyki*12;
+	console.log(answersToSend["K_kosmetyki"]);
+
+	//elektronika
+	elekIleOdp = answersE["K_sprzetyEle"];
+	elekNigdy = getValue("elekNigdy");
+	elekZadko = getValue("elekZadko");
+	elekOkazyjnie = getValue("elekOkazyjnie");
+	elekCzesto = getValue("elekCzesto");
+	elekBarCzesto = getValue("elekBarCzesto");
+
+	elekValue=0;
+	switch (elekIleOdp) {
+		case 1:
+			elekValue=elekNigdy;
+			break;
+		case 2:
+			elekValue=elekZadko;
+			break;
+		case 3:
+			elekValue=elekOkazyjnie;
+			break;
+		case 4:
+			elekValue=elekCzesto;
+			break;
+		case 5:
+			elekValue=elekBarCzesto;
+			break;
+		default:
+			break;
+	}
+	answersToSend["K_elektr"] = elekValue;
+	console.log(answersToSend["K_elektr"]);
+
+	//
+	//=========================================================================
 
 	for (let i = 0; i < Object.keys(answersToSend).length; i++) {
 		if (Object.keys(answersToSend)[i].charAt(0) == "T") {
-			TRANSPORT += Number.parseInt(Object.values(answersToSend)[i]);
+			TRANSPORT += Number.parseFloat(Object.values(answersToSend)[i]);
 		}
 		if (Object.keys(answersToSend)[i].charAt(0) == "J") {
-			JEDZENIE += Number.parseInt(Object.values(answersToSend)[i]);
+			JEDZENIE += Number.parseFloat(Object.values(answersToSend)[i]);
+		}
+		if (Object.keys(answersToSend)[i].charAt(0) == "O") {
+			ODPADY += Number.parseFloat(Object.values(answersToSend)[i]);
+		}
+		if (Object.keys(answersToSend)[i].charAt(0) == "C") {
+			CZAS_WOLNY += Number.parseFloat(Object.values(answersToSend)[i]);
+		}
+		if (Object.keys(answersToSend)[i].charAt(0) == "K") {
+			KONSUMPCJA += Number.parseFloat(Object.values(answersToSend)[i]);
 		}
 	}
 
