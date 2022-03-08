@@ -1,0 +1,55 @@
+
+.logo{
+	position: fixed;
+	top:20px;
+	left:20px;
+	height: 55px;
+}
+
+.btn-support{
+	position: fixed;
+	font-size: 16px;
+	top: 40px;
+	right: 0;
+	padding: 8px 20px;
+	background-color: #4D8748;
+	color: white;
+	border-radius: 7px 0 0 7px;
+	transform: translateX(6%);
+	transition: transform 0.3s;
+
+}
+.btn-support:hover{
+	transform: translateX(0);
+}
+
+
+.more-info{
+	color: white;
+	position: fixed;
+	font-size: 14px;
+	bottom: 30px;
+	right: 20px;
+}
+
+.more-info a{
+	color: 	#FFAE34;
+}
+
+.share{
+	display: flex;
+	color: white;
+	position: fixed;
+	font-size: 14px;
+	bottom: 30px;
+	left: 20px;
+	align-items: center;
+}
+.share img{
+	width: 25px;
+	margin-right: 10px;
+}
+.share a{
+	text-decoration: none;
+	color: white;
+}

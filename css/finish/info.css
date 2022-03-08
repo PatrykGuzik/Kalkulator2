@@ -1,0 +1,32 @@
+.finish-info {
+	margin: 20px;
+	width: 600px;
+	padding: 30px 50px;
+	border-radius: 7px;
+	background-color: rgba(0, 0, 0, 0.411);
+}
+
+.finish-info-box {
+	margin-top: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.finish-info-box img {
+	width: 120px;
+}
+
+.finish-info p {
+	font-size: 15px;
+	font-weight: 600;
+}
+.finish-info-box p {
+	width: 200px;
+	margin-right: 50px;
+	font-weight: 400;
+}
+
+.ziemia {
+	margin-left: 50px;
+}

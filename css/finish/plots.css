@@ -1,0 +1,76 @@
+.stats-world,
+.details {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+}
+
+.result {
+	margin: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: end;
+	align-items: center;
+}
+.result-value,
+.result-describe {
+	margin-top: 10px;
+	margin-bottom: 5px;
+	font-weight: 500;
+}
+.result-bar {
+	width: 20px;
+	background-color: #ffae34;
+	border-radius: 10px;
+	animation: growBar 1s linear;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+
+@keyframes growBar {
+	from {
+		transform: translateY(50%) scaleY(0);
+	}
+	to {
+		transform: translateY(0px) scaleY(1);
+	}
+}
+
+.result .arrow {
+	width: 19px;
+	height: 19px;
+	border-top: 3px solid rgba(255, 31, 31, 0.8);
+	border-left: 3px solid rgba(255, 31, 31, 0.8);
+	transform: translateY(20%) rotate(45deg);
+}
+
+.result-value {
+	opacity: 0;
+	animation: showResultValue 0.3s linear;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+	animation-delay: 1s;
+}
+
+@keyframes showResultValue {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.details .result {
+	padding: 5px;
+	border-radius: 7px;
+	transition: background-color 0.4s;
+}
+.details .result:hover {
+	background-color: rgba(0, 0, 0, 0.253);
+	cursor: pointer;
+}
+
+.result-active{
+	background-color: rgba(0, 0, 0, 0.151);
+}
