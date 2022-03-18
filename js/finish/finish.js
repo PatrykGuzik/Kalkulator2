@@ -168,16 +168,18 @@ function drawStats() {
 	let activeResult = "null"
 
 
-	results.forEach(element => {
-		element.addEventListener("click",()=>{
-			removeActiveClass()
-			activeResult = element.querySelector(".result-describe").innerHTML
+	// ODBLOKOWAĆ GDY BĘDZIE UPDATE SERVERA
 
-			hideNotActive()
-			element.classList.add("result-active")
-			chosenDetail = element.querySelector(".result-describe").innerHTML;
-		})
-	});
+	// results.forEach(element => {
+	// 	element.addEventListener("click",()=>{
+	// 		removeActiveClass()
+	// 		activeResult = element.querySelector(".result-describe").innerHTML
+
+	// 		hideNotActive()
+	// 		element.classList.add("result-active")
+	// 		chosenDetail = element.querySelector(".result-describe").innerHTML;
+	// 	})
+	// });
 
 	function removeActiveClass(){
 		results.forEach(element => {

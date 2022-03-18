@@ -1,6 +1,6 @@
 .finish-info {
 	margin: 20px;
-	width: 70vw;
+	width: 50vw;
 	padding: 30px 50px;
 	border-radius: 7px;
 	background-color: rgba(0, 0, 0, 0.411);
@@ -34,5 +34,11 @@
 @media (min-width: 0px) and (max-width: 576px){
 	.finish-info {
 		width: 90vw;
+	}
+}
+
+@media (min-width: 577px) and (max-width: 1048px) {
+	.finish-info {
+		width: 80vw;
 	}
 }
