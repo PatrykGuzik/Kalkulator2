@@ -14,12 +14,19 @@
 	border: none;
     z-index: 1;
     position: relative;
-    margin: 50px;
 	margin-top: 50px;
 	position: relative;
 	transition: transform 0.3s ;
 	mix-blend-mode: screen;
 }
+.btn-left{
+	margin-right: 50px;
+}
+.btn-right{
+	margin-left: 50px;
+}
+
+
 
 .btn::after{
 	content: '';
@@ -68,3 +75,39 @@
     background-color: #598a55;
 }
 
+
+@media (min-width: 0px) and (max-width: 576px){
+	.btn{
+		position: absolute !important;
+		top: 90px !important;
+		margin: 50px !important;
+	}
+	.btn-left{
+		left: 0 !important;
+	}
+	.btn-right{
+		right: 0 !important;
+	}
+}
+
+@media (min-width: 577px) and (max-width: 786px){
+	.btn-left{
+		margin-right: 10px !important;
+		margin-left: 5px !important;
+	}
+	.btn-right{
+		margin-left: 10px !important;
+		margin-right: 5px !important;
+	}
+}
+
+@media (min-width: 787px) and (max-width: 992px) {
+	.btn-left{
+		margin-right: 20px !important;
+		margin-left: 5px !important;
+	}
+	.btn-right{
+		margin-left: 20px !important;
+		margin-right: 5px !important;
+	}
+}

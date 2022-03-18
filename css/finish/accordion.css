@@ -11,6 +11,7 @@
 	position: absolute;
 	display: flex;
 	width: var(--popup-width);
+	overflow-x: auto;
 	background: rgb(255, 255, 255);
 	border-radius: 7px;
 	padding-top: 10px;
@@ -22,7 +23,7 @@
 	border-radius: 0 0 7px 7px;
 	margin-top: 10px;
 	top: 80px;
-	width: 90%;
+	width: var(--popup-width);
 	height: 40vh;
 	min-height: 100px;
 	padding: 0 50px 30px 50px;
@@ -106,14 +107,68 @@
 	}
 }
 
-
-.red-border{
+.red-border {
 	background-color: rgba(255, 95, 67, 0.096);
 	padding: 3px 7px;
 	border: 1px solid red;
 	border-radius: 7px;
 }
 
-.info-box p{
+.info-box p {
 	margin-top: 10px;
+}
+
+@media (min-width: 0px) and (max-width: 576px) {
+	.accordion .nav {
+		justify-content: flex-start;
+		padding-bottom: 10px;
+	}
+
+	.accordion .info-box p {
+		padding: 0 5px ;
+	}
+
+	.accordion .info-box {
+		padding: 0 !important;
+		height: 50vh;
+		top: 50px;
+	}
+
+	.accordion .btn-nav {
+		padding: 5px;
+		min-width: 90px;
+		margin: 0px 10px;
+		font-size: 12px;
+	}
+	.accordion ::-webkit-scrollbar {
+		width: 0px;
+		height: 0;
+	}
+	.accordion ::-moz-scrollbar {
+		width: 0px;
+		height: 0;
+	}
+}
+
+@media (min-width: 577px) and (max-width: 786px) {
+	.accordion .nav {
+		justify-content: flex-start;
+		padding-bottom: 10px;
+	}
+
+	.accordion .btn-nav {
+		padding: 5px;
+		min-width: 90px;
+		margin: 0px 10px;
+		font-size: 12px;
+	}
+
+	.accordion ::-webkit-scrollbar {
+		width: 0px;
+		height: 0;
+	}
+	.accordion ::-moz-scrollbar {
+		width: 0px;
+		height: 0;
+	}
 }

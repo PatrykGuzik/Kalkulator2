@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title> Kalkulator Śladu Węglowego </title>
     <link rel="stylesheet" href="css/finish/finish.css">
     <link rel="stylesheet" href="css/finish/finish_scroll.css">
     <link rel="stylesheet" href="css/main/loading.css">
@@ -14,31 +14,36 @@
     <link rel="stylesheet" href="css/finish/info.css">
     <link rel="stylesheet" href="css/finish/popup.css">
     <link rel="stylesheet" href="css/finish/plots.css">
+    <link rel="icon" href="img/favicon.ico" sizes="32x32">
+
+    <meta property="og:url" content="https://kalkulatorsladuweglowego.pl/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Oblicz jaki wpływ na środowisko mają
+    Twoje codzienne działania!" />
+    <meta property="og:description" content=" Podejmij
+    pierwszy krok już teraz i skorzystaj z
+    kalkulatora śladu węglowego stworzonego
+    przez zespół projektowy Carbon Footprint
+    Foundation i dowiedz się jak zminimalizować
+    swój ślad węglowy" />
+    <meta property="og:image" content="https://kalkulatorsladuweglowego.pl/img/transport.jpg" />
 
 
 </head>
 
 <body>
-    <div class="loading"> <div class="spinner"></div> </div>
+    <div class="loading">
+        <div class="spinner"></div>
+    </div>
+
+
+
 
     <div class="popup-background">
-        
+
         <div class="popup-box">
             <div class="btn-x"><img class="btn-x-img" src="img/X.png" alt=""></div>
             <div class="popup">
-                <h2>Rekomendujemy</h2>
-                <p>
-                    Naturalne produkty nietestowane na zwierzętach są nie tylko etyczne, ale mają również mniejszy o 66% ślad węglowy od tych 
-                    Naturalne produkty nietestowane na zwierzętach są nie tylko etyczne, ale mają również mniejszy o 66% ślad węglowy od tych 
-                    Naturalne produkty nietestowane na zwierzętach są nie tylko etyczne, ale mają również mniejszy o 66% ślad węglowy od tych 
-                    Naturalne produkty nietestowane na zwierzętach są nie tylko etyczne, ale mają również mniejszy o 66% ślad węglowy od tych 
-                </p>
-                <p>
-                    Naturalne produkty nietestowane na zwierzętach są nie tylko etyczne, ale mają również mniejszy o 66% ślad węglowy od tych 
-                    Naturalne produkty nietestowane na zwierzętach są nie tylko etyczne, ale mają również mniejszy o 66% ślad węglowy od tych 
-               
-                </p>
-                <img src="img/path869.png" alt="">
             </div>
         </div>
 
@@ -47,17 +52,26 @@
     <section class="parallax">
         <div class="parallax-inner">
 
+            <div class="top-accessories">
+                <img class="logo" src="img/logo_CMYK_carbonfootprint_01_1.png" alt="">
+                <a target="_blank" href="https://carbonfootprintfoundation.com/wspieraj/">
+                    <div class="btn-support">Wspieraj nas</div>
+                </a>
+            </div>
 
-            <h2>Twój roczny ślad węglowy</h2>
+
+            <h2 style="padding: 0 20px;">Twój roczny ślad węglowy</h2>
             <div class="rating">Jest bardzo źle! Emitujesz rocznie więcej CO2 niż statystyczny Polak.</div>
 
             <div class="stats-world">
             </div>
 
-            <button class="btn-tip"> Co mogę zrobić? </button>
+            <button class="btn-tip"> CO MOGĘ ZROBIĆ? </button>
 
             <div class="finish-info">
-                <p>Tylko my jesteśmy w stanie powstrzymać nasz wpływ na zmiany klimatyczne. Twoje decyzje, dobre nawyki inspirują do osiągnięcia najważniejszego dla każdego z nas celu: uniknięcia katastrofy klimatycznej.</p>
+                <p>Tylko my jesteśmy w stanie powstrzymać nasz wpływ na zmiany klimatyczne. Twoje decyzje, dobre nawyki
+                    inspirują do osiągnięcia najważniejszego dla każdego z nas celu: uniknięcia katastrofy klimatycznej.
+                </p>
                 <div class="finish-info-box">
                     <div class="ziemia"><img src="img/Ziemia_pods.png" alt=""></div>
                     <p>Każda tona emisji CO2 przyczynia się do globalnego ocieplenia</p>
@@ -72,17 +86,41 @@
                 <button class="btn-left"></button>
                 <button class="btn-right"></button>
             </div>
+
+
+
+            <div class="bottom-accessories">
+
+                <div class="share">
+                    <div class="fb-share-button" data-href="https://kalkulatorsladuweglowego.pl/" data-layout="button"
+                        data-size="large"><a target="_blank"
+                            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fkalkulatorsladuweglowego.pl%2F&amp;src=sdkpreparse"
+                            class="fb-xfbml-parse-ignore">Udostępnij</a>
+                    </div>
+                </div>
+                <div class="more-info">Dowiedz się więcej o działalności <a target="_blank"
+                        href="https://carbonfootprintfoundation.com/">naszej Fundacji</a>
+                </div>
+
+            </div>
         </div>
     </section>
 
 
 
-    <img class="logo" src="img/logo_CMYK_carbonfootprint_01_1.png" alt="">
-    <a target="_blank" href="https://carbonfootprintfoundation.com/wspieraj/">
-        <div class="btn-support">Wspieraj nas</div>
-    </a>
-    <div class="more-info">Dowiedz się więcej o działalności <a target="_blank" href="https://carbonfootprintfoundation.com/">naszej Fundacji</a></div>
-    <div class="share"><img src="img/icons8-share-30.png" alt=""> <a target="_blank" href="https://www.facebook.com/carbonfootprintfoundation/">Udostępnij kalkulator znajomym</a> </div>
+
+    <!-- Load Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+    <script>(function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
+    <!-- Your share button code -->
+
 
     <script src="js/server.js"></script>
     <script src="js/finish/finish.js"></script>
@@ -90,7 +128,7 @@
     <script src="js/finish/recommendations.js"></script>
     <script src="js/finish/accordion.js"></script>
     <script src="js/finish/popup.js"></script>
-    
+
 </body>
 
 </html>

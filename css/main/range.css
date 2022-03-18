@@ -47,13 +47,30 @@
 	margin-top: 10px;
 	border-radius: 10px;
 	background-color: var(--rangeColor);
+	background: linear-gradient(90deg, var(--rangeColor) 50%, rgb(223, 223, 223) 50%);
 }
 
 .slider::-webkit-slider-thumb {
 	-webkit-appearance: none;
 	width: 30px;
 	height: 30px;
-	background-color: var(--rangeColor);
+	background: var(--rangeColor);
 	border: 3px solid var(--rangeWhellColor);
 	border-radius: 50%;
+}
+.slider::-moz-range-thumb {
+	-webkit-appearance: none;
+	width: 30px;
+	height: 30px;
+	background: var(--rangeColor);
+	border: 3px solid var(--rangeWhellColor);
+	border-radius: 50%;
+  }
+
+
+
+@media (min-width: 0px) and (max-width: 576px){
+	.slider{
+		width: 100%;
+	}
 }

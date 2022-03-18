@@ -2,7 +2,7 @@ const popupBackground = document.querySelector(".popup-background");
 const btnX = document.querySelector(".btn-x-img");
 const popup = document.querySelector(".popup");
 
-// window.setTimeout("showPopUp()", 2000);
+window.setTimeout("showPopUp()", 2000);
 
 btnX.addEventListener("click", () => {
 	hidePopUp();
@@ -23,7 +23,7 @@ function hidePopUp() {
 // zawartość POP-UP
 const nameOfVariables = {JEDZENIE:"Jedzenie","ENERGIA DOMU":"Energia domu", "TRANSPORT":"Transport", "CZAS WOLNY":"Czas wolny", KONSUMPCJA:"Konsumpcja", ODPADY:"Odpady"};
 
-let innerPopUp = '<h4>Lorem ipsum</h4>';
+let innerPopUp = '<h4>Rekomendacje</h4>';
 
 // 3 najbardziej emisyjne aktywności
 // let theBiggest = getBiggest(detailsList,6);
@@ -52,7 +52,7 @@ theBiggestSum = theBiggestSum;
 let theBiggestPercent = 100*theBiggestSum/SUMA;
 theBiggestPercent = Number.parseFloat(theBiggestPercent).toFixed(1);
 
-innerPopUp += `<p>dolor mit amet</p>`;
+innerPopUp += `<p>Sprawdź co możesz zrobić dla planety</p>`;
 innerPopUp += accordionStart;
 
 // żarówka

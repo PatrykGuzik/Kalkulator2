@@ -5,6 +5,7 @@ body {
 	text-align: center;
 	font-family: "Poppins", sans-serif;
 	color: #fff;
+	overflow-x: hidden;
 }
 
 * {
@@ -28,8 +29,8 @@ body {
 }
 
 .parallax-inner {
-	padding-top: 10vh;
-	padding-bottom: 10vh;
+	padding-top: 1vh;
+	padding-bottom: 1vh;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -47,9 +48,9 @@ body {
 
 .btn-tip {
 	margin-top: 30px;
-	font-size: 16px;
+	font-size: 18px;
 	right: 0;
-	padding: 8px 20px;
+	padding: 17px 26px;
 	background-color: #4d8748;
 	color: white;
 	border-radius: 7px;
@@ -62,6 +63,7 @@ body {
 /* SCROLLBAR */
 ::-webkit-scrollbar {
 	width: 8px;
+	height: 0px;
 }
 
 ::-webkit-scrollbar-track {
@@ -86,4 +88,9 @@ body {
 .details .result:hover {
 	background-color: rgba(0, 0, 0, 0.253);
 	cursor: pointer;
+}
+
+
+@media (min-width: 0px) and (max-width: 576px) {
+	
 }

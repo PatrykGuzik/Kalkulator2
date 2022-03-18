@@ -1,6 +1,6 @@
 //przekierowanie:
 if (!sessionStorage.getItem("code")) {
-	location.href="start.html";
+	location.href="index.html";
 }
 
 
@@ -142,6 +142,7 @@ function drawForms(d) {
 			changePageIfIsValidateRight(form, d, all_form_objects, numbersOfPages);
 			console.log(answersE);
 			sessionStorage.setItem("page", JSON.stringify(page));
+			console.log("page:",page);
 		} else {
 			updateView(form, d, all_form_objects, numbersOfPages);
 			getCalcValues();
@@ -151,15 +152,15 @@ function drawForms(d) {
 	});
 
 	// PRZYCISK TYMCZASOWY
-	const bntTemp = document.querySelector(".btn-tmp");
-	bntTemp.addEventListener("click", () => {
-		if (page) {
-			updateView(form, d, all_form_objects, numbersOfPages);
-			getCalcValues();
-			console.log("wysłane");
-		}
-		// getNrQuestionsInCategory(d);
-	});
+	// const bntTemp = document.querySelector(".btn-tmp");
+	// bntTemp.addEventListener("click", () => {
+	// 	if (page) {
+	// 		updateView(form, d, all_form_objects, numbersOfPages);
+	// 		getCalcValues();
+	// 		console.log("wysłane");
+	// 	}
+	// 	// getNrQuestionsInCategory(d);
+	// });
 
 
 

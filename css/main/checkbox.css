@@ -86,3 +86,15 @@
 	-ms-transform: rotate(45deg);
 	transform: rotate(45deg);
 }
+
+
+@media (min-width: 0px) and (max-width: 576px) {
+	.checkbox-container{
+		min-width: 250px !important;
+	}
+	.checkbox-box {
+		
+		justify-content:flex-start;
+	
+	}
+}

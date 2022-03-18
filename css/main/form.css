@@ -12,7 +12,8 @@
 .form-container,
 .info-box,
 .form-object {
-	width: 928px;
+	/* width: 928px; */
+	width: 80vw;
 }
 
 .form-container,
@@ -25,6 +26,7 @@
 	background-color: var(--formColor);
 	display: inline-block;
 	border-radius: 7px;
+	text-align: justify;
 }
 
 .form-box {
@@ -73,6 +75,10 @@ ul {
 	padding: 0;
 	margin: 0;
 	font-size: 20px;
+}
+
+li:first-child{
+	display: none;
 }
 
 li:not(:nth-child(1)) {
@@ -147,8 +153,10 @@ li:not(:nth-child(1)) {
 	font-size: 20px;
 }
 .info-box p {
+	max-width: 90%;
 	margin-top: 10px;
 	margin-bottom: 20px;
+	text-align: justify;
 }
 
 .last-on-page {
@@ -156,12 +164,114 @@ li:not(:nth-child(1)) {
 	border-radius: 7px 7px 0 0;
 }
 
+
+
+.metryczka{
+	height: 75px;
+	background: #000;
+}
+
 /* MEDIA */
 
-@media screen and (max-width: 600px) {
+@media (min-width: 0px) and (max-width: 576px) {
 	.form-container,
 	.info-box,
+	.form-object,
+	.btn-next-box {
+		width: 90vw !important;
+		/* margin: auto !important; */
+	}
+
+	.info-box{
+		margin-top: 10px !important;
+	}
+
 	.form-object {
-		width: 500px;
+		padding-top: 30px !important;
+		padding-bottom: 20px !important;
+		padding-left: 50px !important;
+		padding-right: 50px !important;
+		/* margin-bottom: 5px !important; */
+	}
+
+	li {
+		display: none !important;
+	}
+	
+	.active-cat {
+		display: inline-block !important;
+		color: #fed049;
+	}
+
+	.info-content {
+		width: 70%;
+	}
+
+
+}
+
+
+@media (min-width: 577px) and (max-width: 786px) {
+	.form-container,
+	.info-box,
+	.form-object,
+	.btn-next-box {
+		width: 80vw !important;
+		/* margin: auto !important; */
+	}
+
+	.info-box{
+		margin-top: 10px !important;
+	}
+
+	.form-object {
+		padding-top: 30px !important;
+		padding-bottom: 20px !important;
+		padding-left: 50px !important;
+		padding-right: 50px !important;
+		/* margin-bottom: 5px !important; */
+	}
+
+	ul {
+		font-size: 13px !important;
+	}
+	
+	.active-cat {
+		display: inline-block !important;
+		color: #fed049;
+		font-size: 15px !important;
+	}
+
+	li:not(:nth-child(1)) {
+		margin-left: 15px;
+		margin-right: 15px;
+	}
+
+}
+
+@media (min-width: 787px) and (max-width: 992px) {
+	ul {
+		font-size: 17px !important;
+	}
+	
+	.active-cat {
+		display: inline-block !important;
+		color: #fed049;
+		font-size: 20px !important;
+	}
+
+	li:not(:nth-child(1)) {
+		margin-left: 17px;
+		margin-right: 17px;
+	}
+}
+
+@media (min-width: 992px) {
+	.form-container,
+	.info-box,
+	.form-object,
+	.btn-next-box {
+		width: 60vw !important;
+		/* margin: auto !important; */
 	}
 }

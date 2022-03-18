@@ -61,6 +61,22 @@ class Form {
 		// TRANSPORT (Ile km przejeżdżasz jednośladem?)
 		if (answersE["T_motor"] > 0) this._setStatusPages([6, 7], true);
 		else this._setStatusPages([6, 7], false);
+
+		// TRANSPORT (Ile razy leciałeś_aś samolotem?)
+		if (answersE["T_samolot"] > 0) this._setStatusPages([9], true);
+		else this._setStatusPages([9], false);
+
+		// ENERGIA DOMU (Ile razy w tygodniu bierzesz prysznic?)
+		if (answersE["E_prysznicIle"] > 0) this._setStatusPages([17], true);
+		else this._setStatusPages([17], false);
+
+		// CZAS WOLNY (Ile dni w roku spędzasz na wakacjach?)
+		if (answersE["C_dniWakacji"] > 0) this._setStatusPages([28], true);
+		else this._setStatusPages([28], false);
+
+		// KONSUMPCJA (Ile nowych ubrań kupujesz w ciągu roku?)
+		if (answersE["K_noweUbrania"] > 0) this._setStatusPages([35], true);
+		else this._setStatusPages([35], false);
 	}
 
 	_setStatusPages(listOfPages, status) {
@@ -74,31 +90,6 @@ class Form {
 			});
 		}
 	}
-
-	// drawNewImputText(question) {
-	// 	let subQuestions = "";
-	// 	let numberOfSubQuestions = Object.keys(
-	// 		question.mozliwe_odpowiedzi_pl.split(";")
-	// 	).length;
-
-	// 	for (let j = 0; j < numberOfSubQuestions; j++) {
-	// 		let subQuestion = question.mozliwe_odpowiedzi_pl.split(";")[j];
-	// 		console.log(subQuestion);
-	// 		subQuestions += `
-	// 			<div style="display:inline-block">
-	// 				<div>${subQuestion}</div>
-	//             	<input id="${question.question_nr}" type="text" maxlength="4" class="input-object">
-	// 			</div>
-	//         `;
-	// 	}
-
-	// 	return `
-	// 	<div class="form-object input-text-object">
-	// 		<h3>${question.pytanie_pl}</h3>
-	// 		${subQuestions}
-	// 		<p class="validate-input"> wpisz liczbę większą lub równą 0 </p>
-	// 	</div>`;
-	// }
 
 	drawInputText(question) {
 		let header = "";
@@ -379,7 +370,6 @@ class Form {
 					for (let i = 0; i < ANSWERS[inputObjectId].length; i++) {
 						values[i].checked = ANSWERS[inputObjectId][i];
 					}
-					
 				}
 			}
 			//-------------------------------------
@@ -401,7 +391,7 @@ class Form {
 				answersE[inputObjectId] = inputValues;
 
 				this.isFull();
-				this.saveDataInSession()
+				this.saveDataInSession();
 			});
 		}
 	}
@@ -457,6 +447,8 @@ class Form {
 			const sliderValue = inputSliders[i].querySelector(".slider-value");
 			const inputObjectId = inputObject.id;
 
+			this.updateProgressSlider(inputObject);
+
 			//-----------zapis z sesji-------------
 			const sliderDescribe = inputSliders[i].querySelector(".slider-describe");
 			sliderValue.value = inputObject.value;
@@ -474,7 +466,6 @@ class Form {
 			sliderDescribe.innerHTML =
 				sliderObjectsList[i].range_pl_opis.split(";")[inputObject.value - 1];
 
-			
 			const ANSWERS = JSON.parse(sessionStorage.getItem("answersE"));
 
 			if (ANSWERS) {
@@ -503,6 +494,9 @@ class Form {
 					];
 				sliderDescribe.innerHTML =
 					sliderObjectsList[i].range_pl_opis.split(";")[inputObject.value - 1];
+
+				// update paska progressu:
+				this.updateProgressSlider(inputObject);
 
 				// answers[inputObjectId - 1].answer = parseInt(inputObject.value, 10);
 				answersE[inputObjectId] = parseInt(inputObject.value, 10);
@@ -551,16 +545,21 @@ class Form {
 		for (let i = 0; i < Object.keys(inputSlidersPercent).length; i++) {
 			const inputObject = inputSlidersPercent[i].querySelector(".input-object");
 			const inputObjectId = inputObject.id;
-			const sliderValue = inputSlidersPercent[i].querySelector(".slider-percent-value");
+			const sliderValue = inputSlidersPercent[i].querySelector(
+				".slider-percent-value"
+			);
 
 			const ANSWERS = JSON.parse(sessionStorage.getItem("answersE"));
 			sliderValue.innerHTML = `${inputObject.value}%`;
 
 			if (ANSWERS) {
 				if (ANSWERS[inputObjectId] != null) {
-					inputObject.value = ANSWERS[inputObjectId]*100;
+					inputObject.value = ANSWERS[inputObjectId] * 100;
 				}
 			}
+
+			this.updateProgressSlider(inputObject);
+
 
 			inputSlidersPercent[i].addEventListener("input", () => {
 				const sliderValue = inputSlidersPercent[i].querySelector(
@@ -575,8 +574,12 @@ class Form {
 				this.isFull();
 				answersE[inputObjectId] = parseInt(inputObject.value, 10) / 100;
 
-				this.saveDataInSession()
+				this.saveDataInSession();
+
+				// update paska progressu:
+				this.updateProgressSlider(inputObject);
 			});
+
 			// answers[inputObjectId - 1].answer = parseInt(inputObject.value, 10) / 100;
 			answersE[inputObjectId] = parseInt(inputObject.value, 10) / 100;
 		}
@@ -607,5 +610,18 @@ class Form {
 
 	saveDataInSession() {
 		sessionStorage.setItem("answersE", JSON.stringify(answersE));
+	}
+
+
+	updateProgressSlider(input_object){
+		// update paska progressu:
+		const maxValue = input_object.max;
+		const minValue = input_object.min;
+		const difference = maxValue - minValue;
+		const percentProgress =
+			(100 / difference) * parseInt(input_object.value, 10) -
+			100 / difference;
+
+			input_object.style.background = `linear-gradient(90deg, var(--rangeColor) ${percentProgress}%, rgb(223, 223, 223) ${percentProgress}%)`;
 	}
 }

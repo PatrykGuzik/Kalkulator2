@@ -141,7 +141,8 @@ function DrawRecommendation(d) {
 	recommendationsByCat["JEDZENIE"] = innerJedzenie;
 
 	//------------------------------ENERGIA DOMU-------------------------
-	const theBiggestEnergiaDomu = getBiggest(getBiggerInCategory("energia"), 3);
+	const theBiggestEnergiaDomu = getBiggest(getBiggerInCategory("energia"), 5);
+	console.log(theBiggestEnergiaDomu);
 
 	innerEnergiaDomu = "";
 
@@ -411,7 +412,7 @@ function DrawRecommendation(d) {
 
 	//---------------------------Odpady-----------------------------------
     const theBiggestOdpady = getBiggest(getBiggerInCategory("odpady"), 4);
-    console.log(theBiggestOdpady );
+
 	innerOdpady = "";
 
     let odpady = 0;

@@ -1,6 +1,6 @@
 .finish-info {
 	margin: 20px;
-	width: 600px;
+	width: 70vw;
 	padding: 30px 50px;
 	border-radius: 7px;
 	background-color: rgba(0, 0, 0, 0.411);
@@ -29,4 +29,10 @@
 
 .ziemia {
 	margin-left: 50px;
+}
+
+@media (min-width: 0px) and (max-width: 576px){
+	.finish-info {
+		width: 90vw;
+	}
 }

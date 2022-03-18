@@ -1,7 +1,7 @@
 .stats-world,
 .details {
 	display: flex;
-	width: 100%;
+	width: 100vw;
 	justify-content: center;
 }
 
@@ -71,6 +71,63 @@
 	cursor: pointer;
 }
 
-.result-active{
+.result-active {
 	background-color: rgba(0, 0, 0, 0.151);
+}
+
+@media (min-width: 0px) and (max-width: 576px) {
+	.result {
+		margin: 10px;
+		min-width: 40px !important;
+	}
+
+	.result-bar {
+		width: 15px;
+	}
+
+	.result-describe {
+		font-size: 10px;
+	}
+
+	.details .result {
+		padding:0 30px;
+		border-radius: 7px;
+	}
+	.stats-world .result{
+		padding:0 30px;
+		border-radius: 7px;
+	}
+
+	.stats-world,
+	.details
+	{
+		overflow-x: auto;
+		justify-content:flex-start;
+	}
+
+}
+
+@media (min-width: 577px) and (max-width: 786px) {
+	.result {
+		margin: 10px;
+		min-width: 40px !important;
+	}
+
+	.result-bar {
+		width: 15px;
+	}
+
+	.result-describe {
+		font-size: 10px;
+	}
+
+	.details .result {
+		padding:0 30px;
+		border-radius: 7px;
+	}
+
+	.stats-world,
+	.details {
+		overflow-x: auto;
+	}
 }
