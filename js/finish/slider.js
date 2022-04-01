@@ -1,6 +1,10 @@
 
 function drawSlider(){
-	fetch(`${serverLink}/api/informations/?format=json`)
+	fetch(`${serverLink}/api/informations/?format=json`,{
+		headers: {
+			'Authorization': apiKey
+			}
+	})
 	.then(response => response.json())
 	.then(data => DrawInfo(data));
 }
@@ -9,6 +13,12 @@ drawSlider()
 function DrawInfo(d) {
 	const mediaScroller = document.querySelector(".media-scroller");
 
+	let infoHeader = ''
+        switch (lang) {
+			case "pl": infoHeader = 'Czy wiesz, że...'; break;
+			case "ang": infoHeader = 'Did you know that...'; break;
+		}
+
 	let mediaScrollerInner = "";
 
 	for (let i = 0; i < Object.keys(d).length; i++) {
@@ -16,8 +26,8 @@ function DrawInfo(d) {
                                 <div class="info">
 
                                     <div class="info-content">
-                                        <h3>Czy wiesz że...</h3>
-                                        <p>${d[i].informacja_pl}</p>
+                                        <h3>${infoHeader}</h3>
+                                        <p>${d[i][`informacja_${lang}`]}</p>
                                     </div>
 
                                     <img src="img/path869.png" alt="">
@@ -44,7 +54,11 @@ function DrawInfo(d) {
 	// const infoBtn = document.querySelector(".info-btn");
 	// const bigInfo = document.querySelector(".big-info");
 
-	fetch(`${serverLink}/api/recommendations/?format=json`)
+	fetch(`${serverLink}/api/recommendations/?format=json`,{
+		headers: {
+			'Authorization': apiKey
+			}
+	})
 		.then(response => response.json())
 		.then(data => DrawRecommendation(data));
 }

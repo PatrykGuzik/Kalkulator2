@@ -1,8 +1,7 @@
 function DrawRecommendation(d) {
 	// po załadowaniu wszystkich danych ukrywamy "loading"
 	hideLoading();
-	console.log(d);
-	console.log(ANSWERS);
+
 
 	//-----------------------------TRANSPORT-----------------------------
 	let innerTransport = "";
@@ -142,7 +141,6 @@ function DrawRecommendation(d) {
 
 	//------------------------------ENERGIA DOMU-------------------------
 	const theBiggestEnergiaDomu = getBiggest(getBiggerInCategory("energia"), 5);
-	console.log(theBiggestEnergiaDomu);
 
 	innerEnergiaDomu = "";
 
@@ -525,7 +523,7 @@ function DrawRecommendation(d) {
 	function getRecByName(name) {
 		for (let i = 0; i < d.length; i++) {
 			if (d[i].name == name) {
-				return d[i].rekomendacja_pl;
+				return d[i][`rekomendacja_${lang}`];
 			}
 		}
 	}

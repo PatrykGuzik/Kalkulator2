@@ -2,6 +2,9 @@
 if (!sessionStorage.getItem("code")) {
 	location.href="index.html";
 }
+if (sessionStorage.getItem("isFinish") == "true") {
+	location.href="index.html";
+}
 
 
 let page = 1;
@@ -14,6 +17,8 @@ let answersE = {};
 let calc_answers = [];
 let isValidate = true;
 let showInfo = false;
+// LANGUAGE: pl / ang / ...
+let lang = sessionStorage.getItem("lang");
 
 let numbersQuestionsForCounter = {};
 
@@ -42,14 +47,17 @@ function hideLoading() {
 
 displayLoading();
 
-fetch(`${serverLink}/api/questions/?format=json`)
+fetch(`${serverLink}/api/questions/?format=json`,{
+	headers: {
+		'Authorization': apiKey
+		}
+})
 	.then(response => response.json())
 	.then(data => drawForms(data));
 
 function DrawInfo(d) {
 	info = new Info(d, ".info-box");
 	info.drawInfo();
-
 
 	const allFormObjects = document.querySelectorAll(".form-object");
 	const infoBox = document.querySelector(".info-box");
@@ -82,6 +90,7 @@ function drawForms(d) {
 		hideLoading();
 	}, 0);
 
+
 	let numbersOfQuestions = Object.keys(d).length;
 	//TODO: zmienić sposób ustalania ostatniej strony
 	let numbersOfPages = d[numbersOfQuestions - 1].page;
@@ -94,11 +103,7 @@ function drawForms(d) {
 		answersE = JSON.parse(sessionStorage.getItem("answersE"));
 	}
 
-	
 
-	console.log(answersE);
-
-	
 
 	makePagesNrForView(numbersOfPages);
 
@@ -140,9 +145,7 @@ function drawForms(d) {
 	btnNext.addEventListener("click", () => {
 		if (page < numbersOfPages) {
 			changePageIfIsValidateRight(form, d, all_form_objects, numbersOfPages);
-			console.log(answersE);
 			sessionStorage.setItem("page", JSON.stringify(page));
-			console.log("page:",page);
 		} else {
 			updateView(form, d, all_form_objects, numbersOfPages);
 			getCalcValues();
@@ -165,7 +168,11 @@ function drawForms(d) {
 
 
 
-	fetch(`${serverLink}/api/informations/?format=json`)
+	fetch(`${serverLink}/api/informations/?format=json`,{
+		headers: {
+			'Authorization': apiKey
+			}
+	})
 	.then(response => response.json())
 	.then(data => DrawInfo(data));
 }

@@ -9,14 +9,13 @@
 // ];
 
 const recommendationsByCat = {
-	"TRANSPORT": 'tr',
-	"ODPADY": 'od',
-	"ENERGIA DOMU": 'en',
-	"JEDZENIE": 'jed',
-	"CZAS WOLNY": 'cw',
-	"KONSUMPCJA": 'kon',
+	TRANSPORT: "tr",
+	ODPADY: "od",
+	"ENERGIA DOMU": "en",
+	JEDZENIE: "jed",
+	"CZAS WOLNY": "cw",
+	KONSUMPCJA: "kon",
 };
-
 
 let buttons = ["but1", "but2", "but3", "but4"];
 function getAccordion(accordion) {
@@ -28,9 +27,10 @@ function getAccordion(accordion) {
 	infoBox.classList.add("expand");
 
 	setTimeout(() => {
-		infoBox.innerHTML = `<p class="info-box-text">${recommendationsByCat[theBiggest[0]]}</p>`;
+		infoBox.innerHTML = `<p class="info-box-text">${
+			recommendationsByCat[theBiggest[0]]
+		}</p>`;
 	}, 1000);
-	
 
 	const infoBoxText = document.querySelector(".info-box-text");
 
@@ -44,6 +44,9 @@ function getAccordion(accordion) {
 	}
 
 	BUTTONS.forEach(element => {
+		
+		
+
 		element.addEventListener("click", () => {
 			if (
 				!element.classList.contains("active") &&
@@ -52,7 +55,6 @@ function getAccordion(accordion) {
 				removeActiveClass();
 
 				element.classList.add("active");
-				console.log(element.id[element.id.length - 1]);
 				btn = document.querySelector(`#${element.id}`);
 
 				showAndHiddenInfoBox();
@@ -60,7 +62,9 @@ function getAccordion(accordion) {
 				nrId = element.id[element.id.length - 1];
 
 				setTimeout(() => {
-					infoBox.innerHTML = `<p class="info-box-text">${recommendationsByCat[theBiggest[nrId - 1]]}</p>`;
+					infoBox.innerHTML = `<p class="info-box-text">${
+						recommendationsByCat[theBiggest[nrId - 1]]
+					}</p>`;
 					showAndHiddenInfoBox();
 				}, 400);
 			}
@@ -80,4 +84,29 @@ function getAccordion(accordion) {
 		infoBox.classList.toggle("expand");
 		infoBox.classList.toggle("collapse");
 	}
+
+	function removeEmptyInfoBox() {
+		console.log("------------------");
+		for (let i = 0; i < Object.keys(recommendationsByCat).length; i++) {
+			console.log(recommendationsByCat[Object.keys(recommendationsByCat)[i]]);
+		}
+	}
 }
+
+
+
+setTimeout(() => {
+	
+
+	for (let i = 0; i < theBiggest.length; i++) {
+		const btnToRemove = document.querySelector(`#but-${i+1}`)
+		
+		if (recommendationsByCat[theBiggest[i]] == "") {
+			// console.log(recommendationsByCat[theBiggest[i]]);
+			btnToRemove.style.display = "none"
+			
+		}
+	}
+
+
+}, 600);

@@ -92,14 +92,19 @@ class Form {
 	}
 
 	drawInputText(question) {
+		let validateText = '';
+		switch (lang) {
+			case "pl": validateText = 'wpisz liczbę większą lub równą 0'; break;
+			case "ang": validateText = 'Enter a number greater than or equal to 0'; break;
+		}
 		let header = "";
-		let subquestion = `<p>${question.pytanie_pomocnicze_pl}</p> `;
+		let subquestion = `<p>${question[`pytanie_pomocnicze_${lang}`]}</p> `;
 		let unit = "";
 
-		if (question.jednostka == null) {
+		if (question[`jednostka_${lang}`] == null) {
 			unit = "";
 		} else {
-			unit = question.jednostka;
+			unit = question[`jednostka_${lang}`];
 		}
 
 		if (question.pytanie_pomocnicze_pl == null) {
@@ -107,7 +112,7 @@ class Form {
 		}
 
 		if (this.isFirstQuestionOnPage(question)) {
-			header += `<h3 class="main-question-text"> ${question.pytanie_pl} </h3> `;
+			header += `<h3 class="main-question-text"> ${question[`pytanie_${lang}`]} </h3> `;
 		} else {
 			header = "";
 		}
@@ -121,7 +126,7 @@ class Form {
 					<input id="${
 						question.etykieta
 					}" type="text" maxlength="5" class="input-object"> <span>${unit}</span>
-					<p class="validate-input"> wpisz liczbę większą lub równą 0 </p>
+					<p class="validate-input">${validateText} </p>
 					
                 </div>`;
 	}
@@ -180,6 +185,11 @@ class Form {
 	}
 
 	drawRadio(question) {
+		let validateText = '';
+		switch (lang) {
+			case "pl": validateText = 'Zaznacz jedną odpowiedź'; break;
+			case "ang": validateText = 'Mark one answer.'; break;
+		}
 		let subQuestions = "";
 		let numberOfSubQuestions = Object.keys(
 			question.mozliwe_odpowiedzi_pl.split(";")
@@ -194,7 +204,7 @@ class Form {
 		}
 
 		for (let j = 0; j < numberOfSubQuestions; j++) {
-			let subQuestion = question.mozliwe_odpowiedzi_pl.split(";")[j];
+			let subQuestion = question[`mozliwe_odpowiedzi_${lang}`].split(";")[j];
 			subQuestions += `<label> 
                 <input id="${question.etykieta}" type="radio" name="r${question.question_nr}" class="radio input-object">  <span>${subQuestion}</span>
             </label>`;
@@ -202,9 +212,9 @@ class Form {
 		return `<div class="form-object radio-object ${this.getLastObjectClassOnPage(
 			question
 		)} ${question.etykieta}">  
-                    <h3>${question.pytanie_pl}</h3> 
+                    <h3>${question[`pytanie_${lang}`]}</h3> 
                     ${subQuestions}
-					<div class="validate-radio-box"><p class="validate-radio"> Zaznacz jedną odpowiedź </p></div>
+					<div class="validate-radio-box"><p class="validate-radio"> ${validateText} </p></div>
                 </div>`;
 	}
 
@@ -333,7 +343,7 @@ class Form {
 		).length;
 
 		for (let j = 0; j < numberOfSubQuestions; j++) {
-			let subQuestion = question.mozliwe_odpowiedzi_pl.split(";")[j];
+			let subQuestion = question[`mozliwe_odpowiedzi_${lang}`].split(";")[j];
 			subQuestions += `<label class="checkbox-container"> <p>${subQuestion}</p>
                 <input id="${question.etykieta}" type="checkbox" name="c${question.question_nr}" class="input-object">   
 				<span class="checkmark"></span>
@@ -342,7 +352,7 @@ class Form {
 		return `<div class="form-object checkbox-object ${this.getLastObjectClassOnPage(
 			question
 		)}">  
-					<h3>${question.pytanie_pl}</h3> 
+					<h3>${question[`pytanie_${lang}`]}</h3> 
 					<div class="checkbox-box">
                     	${subQuestions}
 					</div>
@@ -403,23 +413,23 @@ class Form {
 		let describes = [];
 
 		if (this.isFirstQuestionOnPage(question)) {
-			header += `<h3 class="main-question-slider"> ${question.pytanie_pl} </h3> `;
+			header += `<h3 class="main-question-slider"> ${question[`pytanie_${lang}`]} </h3> `;
 		} else {
 			header = "";
 		}
 
 		let numberOfSubQuestions = Object.keys(
-			question.mozliwe_odpowiedzi_pl.split(";")
+			question[`mozliwe_odpowiedzi_${lang}`].split(";")
 		).length;
 		for (let j = 0; j < numberOfSubQuestions; j++) {
-			let subQuestion = question.mozliwe_odpowiedzi_pl.split(";")[j];
-			let describe = question.range_pl_opis.split(";")[j];
+			let subQuestion = question[`mozliwe_odpowiedzi_${lang}`].split(";")[j];
+			let describe = question[`range_${lang}_opis`].split(";")[j];
 			subQuestions.push(subQuestion);
 			describes.push(describe);
 		}
 
 		if (question.pytanie_pomocnicze_pl != null) {
-			subQuestion += `<p><b>${question.pytanie_pomocnicze_pl}</b></p>`;
+			subQuestion += `<p><b>${question[`pytanie_pomocnicze_${lang}`]}</b></p>`;
 		}
 
 		const middleValue = Number.parseInt(numberOfSubQuestions / 2);
@@ -460,11 +470,11 @@ class Form {
 				}
 			}
 			sliderValue.innerHTML =
-				sliderObjectsList[i].mozliwe_odpowiedzi_pl.split(";")[
+				sliderObjectsList[i][`mozliwe_odpowiedzi_${lang}`].split(";")[
 					inputObject.value - 1
 				];
 			sliderDescribe.innerHTML =
-				sliderObjectsList[i].range_pl_opis.split(";")[inputObject.value - 1];
+				sliderObjectsList[i][`range_${lang}_opis`].split(";")[inputObject.value - 1];
 
 			const ANSWERS = JSON.parse(sessionStorage.getItem("answersE"));
 
@@ -489,11 +499,11 @@ class Form {
 				}
 
 				sliderValue.innerHTML =
-					sliderObjectsList[i].mozliwe_odpowiedzi_pl.split(";")[
+					sliderObjectsList[i][`mozliwe_odpowiedzi_${lang}`].split(";")[
 						inputObject.value - 1
 					];
 				sliderDescribe.innerHTML =
-					sliderObjectsList[i].range_pl_opis.split(";")[inputObject.value - 1];
+					sliderObjectsList[i][`range_${lang}_opis`].split(";")[inputObject.value - 1];
 
 				// update paska progressu:
 				this.updateProgressSlider(inputObject);
@@ -515,13 +525,13 @@ class Form {
 		let subQuestion = "";
 
 		if (this.isFirstQuestionOnPage(question)) {
-			header += `<h3 class="main-question-slider-percent"> ${question.pytanie_pl} </h3> `;
+			header += `<h3 class="main-question-slider-percent"> ${question[`pytanie_${lang}`]} </h3> `;
 		} else {
 			header = "";
 		}
 
 		if (question.pytanie_pomocnicze_pl != null) {
-			subQuestion += `<p><b>${question.pytanie_pomocnicze_pl}</b></p>`;
+			subQuestion += `<p><b>${question[`pytanie_pomocnicze_${lang}`]}</b></p>`;
 		}
 
 		return `<div class="form-object slider-percent-object ${this.getLastObjectClassOnPage(
@@ -567,7 +577,7 @@ class Form {
 				);
 
 				sliderValue.value = inputObject.value;
-				console.log(inputObject.value);
+			
 
 				sliderValue.innerHTML = `${inputObject.value}%`;
 

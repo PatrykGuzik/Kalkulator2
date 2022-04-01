@@ -1,6 +1,9 @@
+// LANGUAGE: pl / ang / ...
+let lang = sessionStorage.getItem("lang");
+
 // Przekierowanie
 if (!sessionStorage.getItem("answers")) {
-	location.href="index.html";
+	location.href = "index.html";
 }
 //Loading---------------------------------------------------------------------------
 const loader = document.querySelector(".loading");
@@ -16,13 +19,11 @@ function displayLoading() {
 }
 
 function hideLoading() {
-
 	setTimeout(() => {
 		loader.classList.remove("display");
 		drawStats();
 		// window.setTimeout("showPopUp()", 2000);
 	}, 0);
-	
 }
 
 displayLoading();
@@ -39,7 +40,6 @@ const MEKSYK = 2.7;
 
 const ANSWERS = JSON.parse(sessionStorage.getItem("answers"));
 const ANSWERSE = JSON.parse(sessionStorage.getItem("answersE"));
-console.log(ANSWERSE);
 // zmienic na const
 let TRANSPORT = Number.parseFloat(sessionStorage.getItem("TRANSPORT") / 1000);
 let ODPADY = Number.parseFloat(sessionStorage.getItem("ODPADY") / 1000);
@@ -65,7 +65,7 @@ const RED = "#FF3939";
 const GREEN = "#5A9D55";
 const YELLOW = "#FFAE34";
 
-const detailsList = {
+let detailsList = {
 	TRANSPORT: TRANSPORT,
 	ODPADY: ODPADY,
 	"ENERGIA DOMU": ENERGIA_DOMU,
@@ -74,9 +74,9 @@ const detailsList = {
 	KONSUMPCJA: KONSUMPCJA,
 };
 
+let detailsListDescribe=["TRANSPORT","ODPADY","ENERGIA DOMU","JEDZENIE","CZAS WOLNY","KONSUMPCJA"]
 
-
-const statsList = {
+let statsList = {
 	"Twój wynik": SUMA,
 	Świat: SWIAT,
 	Polska: POLSKA,
@@ -85,10 +85,27 @@ const statsList = {
 	Meksyk: MEKSYK,
 };
 
-const ratingGood = "Jest dobrze! Emitujesz mniej niż przeciętny Polak.";
-const ratingMid = "Jest nie najlepiej. Twoje emisje są zbliżone do emisji przeciętnego Polaka";
-const ratingBad =
+let ratingGood = "Jest dobrze! Emitujesz mniej niż przeciętny Polak.";
+let ratingMid =
+	"Jest nie najlepiej. Twoje emisje są zbliżone do emisji przeciętnego Polaka";
+let ratingBad =
 	"Jest bardzo źle! Emitujesz rocznie więcej CO2 niż statystyczny Polak.";
+
+// if English
+if (lang == "ang") {
+	statsList = {
+		"Your score": SUMA,
+		World: SWIAT,
+		Poland: POLSKA,
+		China: CHINY,
+		USA: USA,
+		Mexico: MEKSYK,
+	};
+	ratingGood = "Lorem";
+	ratingMid = "Loremipsum";
+	ratingBad = "dolor";
+	detailsListDescribe=["TRANSPORT","WASTE","HOUSEHOLD ENERGY","FOOD","FREE TIME","CONSUMPTION"]
+}
 
 const rating = document.querySelector(".rating");
 
@@ -147,7 +164,7 @@ function drawStats() {
 		value = Object.values(detailsList)[i];
 		percent = (value * 100) / SUMA;
 		percentFixed = Number.parseFloat(percent).toFixed(1);
-		describe = Object.keys(detailsList)[i];
+		describe = detailsListDescribe[i];
 		barColor = changeBarColor(value);
 		detailsInner += `<div class="result">
                         <div class="result-value">${percentFixed}%</div>
@@ -161,125 +178,111 @@ function drawStats() {
 
 	details.innerHTML = detailsInner;
 
-
-// ______________CLICK STATS______________
-	const results = details.querySelectorAll(".result")
+	// ______________CLICK STATS______________
+	const results = details.querySelectorAll(".result");
 	const mediaScroller = document.querySelector(".media-scroller");
-	let activeResult = "null"
+	let activeResult = "null";
 
+	results.forEach(element => {
+		element.addEventListener("click", () => {
+			removeActiveClass();
+			activeResult = element.querySelector(".result-describe").innerHTML;
 
-	// ODBLOKOWAĆ GDY BĘDZIE UPDATE SERVERA
-
-	// results.forEach(element => {
-	// 	element.addEventListener("click",()=>{
-	// 		removeActiveClass()
-	// 		activeResult = element.querySelector(".result-describe").innerHTML
-
-	// 		hideNotActive()
-	// 		element.classList.add("result-active")
-	// 		chosenDetail = element.querySelector(".result-describe").innerHTML;
-	// 	})
-	// });
-
-	function removeActiveClass(){
-		results.forEach(element => {
-			element.classList.remove("result-active")
-		})
-	}
-
-	function hideNotActive(){
-		hiddenAllElements()
-		const infoElements = mediaScroller.querySelectorAll(".media-element")
-		infoElements.forEach(element => {
-			showElement(element, activeResult)
+			hideNotActive();
+			element.classList.add("result-active");
+			chosenDetail = element.querySelector(".result-describe").innerHTML;
 		});
-		
+	});
+
+	function removeActiveClass() {
+		results.forEach(element => {
+			element.classList.remove("result-active");
+		});
 	}
 
-	function showElement(element, category){
+	function hideNotActive() {
+		hiddenAllElements();
+		const infoElements = mediaScroller.querySelectorAll(".media-element");
+		infoElements.forEach(element => {
+			showElement(element, activeResult);
+		});
+	}
 
+	function showElement(element, category) {
 		switch (category) {
-			case "TRANSPORT":
+			case detailsListDescribe[0]:
 				if (element.classList.contains("cat-transport")) {
 					element.style.display = "block";
 				}
 				break;
 
-			case "ODPADY":
+			case detailsListDescribe[1]:
 				if (element.classList.contains("cat-odpady")) {
 					element.style.display = "block";
 				}
 				break;
 
-			case "ENERGIA DOMU":
+			case detailsListDescribe[2]:
 				if (element.classList.contains("cat-energia_domu")) {
 					element.style.display = "block";
 				}
 				break;
 
-			case "JEDZENIE":
+			case detailsListDescribe[3]:
 				if (element.classList.contains("cat-jedzenie")) {
 					element.style.display = "block";
 				}
 				break;
-			case "CZAS WOLNY":
+			case detailsListDescribe[4]:
 				if (element.classList.contains("cat-czas_wolny")) {
 					element.style.display = "block";
 				}
 				break;
-			case "KONSUMPCJA":
+			case detailsListDescribe[5]:
 				if (element.classList.contains("cat-konsumpcja")) {
 					element.style.display = "block";
 				}
 				break;
 		}
-		
 	}
 
-	function hiddenAllElements(){
-		const infoElements = mediaScroller.querySelectorAll(".media-element")
+	function hiddenAllElements() {
+		const infoElements = mediaScroller.querySelectorAll(".media-element");
 		infoElements.forEach(element => {
-			
 			element.style.display = "none";
-			
 		});
 	}
-
 }
 
-
 // najbardziej emisyjne aktywności
-let theBiggestLenght=0;
-getBiggest(detailsList,6).forEach(element => {
-	if(element != ""){
-		theBiggestLenght +=1
+let theBiggestLenght = 0;
+getBiggest(detailsList, 6).forEach(element => {
+	if (element != "") {
+		theBiggestLenght += 1;
 	}
 });
 
-let theBiggest = getBiggest(detailsList,theBiggestLenght);
-
-
-
+let theBiggest = getBiggest(detailsList, theBiggestLenght);
 
 // _______________________FUNCTIONS__________________________
 
-function getBiggest(obj, count){
+function getBiggest(obj, count) {
 	jsonObj = Object.assign({}, obj);
 	theBiggests = [];
-	
-	for(let i=0; i<count ;i++){
-	  let theBiggest = 0;
-	  let theBiggestName = '';
-	  
-	  for(let i=0; i< Object.keys(jsonObj).length ;i++){
-		if (jsonObj[Object.keys(jsonObj)[i]] > theBiggest){
-		theBiggest = jsonObj[Object.keys(jsonObj)[i]];
-		theBiggestName = Object.keys(jsonObj)[i];
-		};
-	  }
-	  delete jsonObj[theBiggestName];
-	  theBiggests.push(theBiggestName)
+
+	for (let i = 0; i < count; i++) {
+		let theBiggest = 0;
+		let theBiggestName = "";
+
+		for (let i = 0; i < Object.keys(jsonObj).length; i++) {
+			if (jsonObj[Object.keys(jsonObj)[i]] > theBiggest) {
+				theBiggest = jsonObj[Object.keys(jsonObj)[i]];
+				theBiggestName = Object.keys(jsonObj)[i];
+			}
+		}
+		delete jsonObj[theBiggestName];
+		theBiggests.push(theBiggestName);
 	}
-	
+
 	return theBiggests;
-  }
+}

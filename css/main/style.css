@@ -18,6 +18,12 @@ body {
 	margin: 0;
 }
 
+
+.category-name span{
+	text-transform: uppercase;
+}
+
+
 .main-container {
 	margin-top: 50px;
 	width: 100%;
@@ -39,6 +45,7 @@ body {
 .parallax-inner {
 	padding-top: 1vh;
 	padding-bottom: 1vh;
+	overflow: hidden;
 }
 
 /* SCROLLBAR */

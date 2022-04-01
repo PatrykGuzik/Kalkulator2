@@ -21,9 +21,16 @@ function hidePopUp() {
 }
 
 // zawartość POP-UP
-const nameOfVariables = {JEDZENIE:"Jedzenie","ENERGIA DOMU":"Energia domu", "TRANSPORT":"Transport", "CZAS WOLNY":"Czas wolny", KONSUMPCJA:"Konsumpcja", ODPADY:"Odpady"};
+let nameOfVariables = {JEDZENIE:"Jedzenie","ENERGIA DOMU":"Energia domu", "TRANSPORT":"Transport", "CZAS WOLNY":"Czas wolny", KONSUMPCJA:"Konsumpcja", ODPADY:"Odpady"};
 
-let innerPopUp = '<h4>Rekomendacje</h4>';
+let innerPopUp = '<h4>Rekomendacje</h4><p>Sprawdź co możesz zrobić dla planety</p>';
+
+if (lang == "ang") {
+	nameOfVariables = {JEDZENIE:"Food","ENERGIA DOMU":"Household Energy", "TRANSPORT":"Transport", "CZAS WOLNY":"Free time", KONSUMPCJA:"Consumption", ODPADY:"Waste"};
+	innerPopUp = '<h4>Recommendations</h4><p>lorem ipsum</p>';
+}
+
+
 
 // 3 najbardziej emisyjne aktywności
 // let theBiggest = getBiggest(detailsList,6);
@@ -31,7 +38,7 @@ let innerPopUp = '<h4>Rekomendacje</h4>';
 // 	theBiggest = getBiggest(detailsList,5);
 // }
 
-console.log(theBiggest);
+
 
 let theBiggestSum = 0;
 
@@ -52,7 +59,7 @@ theBiggestSum = theBiggestSum;
 let theBiggestPercent = 100*theBiggestSum/SUMA;
 theBiggestPercent = Number.parseFloat(theBiggestPercent).toFixed(1);
 
-innerPopUp += `<p>Sprawdź co możesz zrobić dla planety</p>`;
+
 innerPopUp += accordionStart;
 
 // żarówka
@@ -64,23 +71,3 @@ getAccordion(accordion);
 
 // _______________________FUNCTIONS__________________________
 
-// function getBiggest(obj, count){
-// 	jsonObj = Object.assign({}, obj);
-// 	theBiggests = [];
-	
-// 	for(let i=0; i<count ;i++){
-// 	  let theBiggest = 0;
-// 	  let theBiggestName = '';
-	  
-// 	  for(let i=0; i< Object.keys(jsonObj).length ;i++){
-// 		if (jsonObj[Object.keys(jsonObj)[i]] > theBiggest){
-// 		theBiggest = jsonObj[Object.keys(jsonObj)[i]];
-// 		theBiggestName = Object.keys(jsonObj)[i];
-// 		};
-// 	  }
-// 	  delete jsonObj[theBiggestName];
-// 	  theBiggests.push(theBiggestName)
-// 	}
-	
-// 	return theBiggests;
-//   }

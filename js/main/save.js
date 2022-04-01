@@ -1,7 +1,22 @@
 const answersToSend = {};
 
+
+function getFullTime() {
+	const start_time = parseInt(sessionStorage.getItem("start_time"));
+	const date = new Date();
+	const stop_time = date.getTime();
+	const full_time = (stop_time - start_time) / 1000;
+	sessionStorage.setItem("full_time", full_time);
+	return full_time;
+}
+
+
 function getCalcValues() {
-	fetch(`${serverLink}/api/values/?format=json`)
+	fetch(`${serverLink}/api/values/?format=json`,{
+		headers: {
+			'Authorization': apiKey
+			}
+	})
 		.then(response => response.json())
 		.then(data => saveToCalcAnswers(data));
 }
@@ -10,19 +25,26 @@ function sendToBase() {
 	const toSendAnswers = JSON.stringify(answersE);
 	const toSendCalcAnswers = JSON.stringify(answersToSend);
 
+
 	let _data = {
 		code: sessionStorage.getItem("code"),
 		answers: toSendAnswers,
 		calc_answers: toSendCalcAnswers,
+		time: getFullTime(),
 	};
 	fetch(`${serverLink}/api/answers/?format=json`, {
 		method: "POST",
 		body: JSON.stringify(_data),
-		headers: { "Content-type": "application/json; charset=UTF-8" },
+		headers: { "Content-type": "application/json; charset=UTF-8" ,
+		'Authorization': apiKey
+	},
 	}).then(response => response.json());
 }
 
 function saveToCalcAnswers(data) {
+
+
+	
 
 
 	// Podsumowanie
@@ -827,11 +849,25 @@ function saveToCalcAnswers(data) {
 	sessionStorage.setItem("CZAS_WOLNY", CZAS_WOLNY);
 	sessionStorage.setItem("KONSUMPCJA", KONSUMPCJA);
 	sessionStorage.setItem("answers", JSON.stringify(answersToSend));
+	sessionStorage.setItem("isFinish", "true")
+
+	answersToSend["TRANSPORT"] = TRANSPORT;
+	answersToSend["ENERGIA_DOMU"] = ENERGIA_DOMU;
+	answersToSend["ODPADY"] = ODPADY;
+	answersToSend["JEDZENIE"] = JEDZENIE;
+	answersToSend["CZAS_WOLNY"] = CZAS_WOLNY;
+	answersToSend["KONSUMPCJA"] = KONSUMPCJA;
+	answersToSend["SUMA"] = TRANSPORT + ENERGIA_DOMU + ODPADY + JEDZENIE + CZAS_WOLNY + KONSUMPCJA;
+
 	// Wysyłamy dane do bazy
 	sendToBase();
 
 	// Przekierowanie
+
+
 	location.href="finish.html";
+
+	
 
 	// console.log(answersToSend);
 	// console.log("wysłane");
