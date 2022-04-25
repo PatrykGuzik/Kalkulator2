@@ -12,10 +12,6 @@ let chosenDetail = "null";
 
 function displayLoading() {
 	loader.classList.add("display");
-
-	setTimeout(() => {
-		loader.classList.remove("display");
-	}, 60000);
 }
 
 function hideLoading() {

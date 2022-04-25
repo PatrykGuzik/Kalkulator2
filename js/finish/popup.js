@@ -27,7 +27,7 @@ let innerPopUp = '<h4>Rekomendacje</h4><p>Sprawdź co możesz zrobić dla planet
 
 if (lang == "ang") {
 	nameOfVariables = {JEDZENIE:"Food","ENERGIA DOMU":"Household Energy", "TRANSPORT":"Transport", "CZAS WOLNY":"Free time", KONSUMPCJA:"Consumption", ODPADY:"Waste"};
-	innerPopUp = '<h4>Recommendations</h4><p>lorem ipsum</p>';
+	innerPopUp = '<h4>Recommendations</h4>';
 }
 
 

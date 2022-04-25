@@ -118,8 +118,8 @@ function myFunction(data) {
 		let tableHeader = "";
 		let tableBody = "";
 
-		header += "id,code,time,";
-		tableHeader += "<tr> <th>id</th> <th>code</th> <th>time</th> ";
+		header += "id,code,time,date,";
+		tableHeader += "<tr> <th>id</th> <th>code</th> <th>time</th> <th>date</th> ";
 
 		for (let i = 0; i < filterDataLength; i++) {
 			const JSONData = JSON.parse(filterData[i][`${typeData}`]); //  <---------------
@@ -132,10 +132,12 @@ function myFunction(data) {
 			row.push(filterData[i].id);
 			row.push(filterData[i].code);
 			row.push(filterData[i].time);
+			row.push(filterData[i].date);
 
 			rowTableBody += `<td>${filterData[i].id}</td>`;
 			rowTableBody += `<td>${filterData[i].code}</td>`;
 			rowTableBody += `<td>${filterData[i].time}</td>`;
+			rowTableBody += `<td>${filterData[i].date}</td>`;
 
 			for (let j = 0; j < JSONDataLength; j++) {
 				if (Array.isArray(Object.values(JSONData)[j])) {

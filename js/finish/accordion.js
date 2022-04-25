@@ -30,7 +30,7 @@ function getAccordion(accordion) {
 		infoBox.innerHTML = `<p class="info-box-text">${
 			recommendationsByCat[theBiggest[0]]
 		}</p>`;
-	}, 1000);
+	}, 2000);
 
 	const infoBoxText = document.querySelector(".info-box-text");
 
@@ -66,7 +66,7 @@ function getAccordion(accordion) {
 						recommendationsByCat[theBiggest[nrId - 1]]
 					}</p>`;
 					showAndHiddenInfoBox();
-				}, 400);
+				}, 500);
 			}
 		});
 	});
@@ -109,4 +109,4 @@ setTimeout(() => {
 	}
 
 
-}, 600);
+}, 2000);

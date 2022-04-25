@@ -125,7 +125,7 @@ class Form {
 					${subquestion}
 					<input id="${
 						question.etykieta
-					}" type="text" maxlength="5" class="input-object"> <span>${unit}</span>
+					}" type="number" maxlength="5" class="input-object"> <span>${unit}</span>
 					<p class="validate-input">${validateText} </p>
 					
                 </div>`;

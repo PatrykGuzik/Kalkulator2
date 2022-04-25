@@ -1,2 +1,2 @@
-const serverLink = "http://127.0.0.1:8000";
-const apiKey = ':P';
+const serverLink = "https://cffcarbon.pythonanywhere.com";
+const apiKey = 'Api-Key K6I282Yj.xHFo1HSrhGL39C97iFDcyGKRjBuqTD2w';

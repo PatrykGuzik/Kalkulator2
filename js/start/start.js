@@ -15,11 +15,11 @@ const date = new Date();
 const start_time = date.getTime();
 
 
-setTimeout(() => {
-	const date2 = new Date();
-	const stop_time = date2.getTime();
+// setTimeout(() => {
+// 	const date2 = new Date();
+// 	const stop_time = date2.getTime();
 
-}, 2000);
+// }, 2000);
 
 // ----------
 
