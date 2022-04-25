@@ -97,9 +97,9 @@ if (lang == "ang") {
 		USA: USA,
 		Mexico: MEKSYK,
 	};
-	ratingGood = "Lorem";
-	ratingMid = "Loremipsum";
-	ratingBad = "dolor";
+	ratingGood = "It's good! You emit less than the average Pole.";
+	ratingMid = "It's not good. Your emissions are very similar to the emissions of the average Pole.";
+	ratingBad = "It's very bad! You emit more CO2 than the average Pole.";
 	detailsListDescribe=["TRANSPORT","WASTE","HOUSEHOLD ENERGY","FOOD","FREE TIME","CONSUMPTION"]
 }
 
